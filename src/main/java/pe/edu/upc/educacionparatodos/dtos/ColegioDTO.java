@@ -1,50 +1,61 @@
 package pe.edu.upc.educacionparatodos.dtos;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 public class ColegioDTO {
 
-    private Long id;
+    private Long idColegio;
+    private String nombreColegio;
+    private String direccionColegio;
+    private String distritoColegio;
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime actualizadoEn;
 
-    @NotBlank(message = "El nombre es obligatorio")
-    @Size(max = 150, message = "El nombre no puede superar los 150 caracteres")
-    private String nombre;
-
-    @NotBlank(message = "El distrito es obligatorio")
-    @Size(max = 100, message = "El distrito no puede superar los 100 caracteres")
-    private String distrito;
-
-    public ColegioDTO() {
+    public Long getIdColegio() {
+        return idColegio;
     }
 
-    public ColegioDTO(Long id, String nombre, String distrito) {
-        this.id = id;
-        this.nombre = nombre;
-        this.distrito = distrito;
+    public void setIdColegio(Long idColegio) {
+        this.idColegio = idColegio;
     }
 
-    public Long getId() {
-        return id;
+    public String getNombreColegio() {
+        return nombreColegio;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setNombreColegio(String nombreColegio) {
+        this.nombreColegio = nombreColegio;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDireccionColegio() {
+        return direccionColegio;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDireccionColegio(String direccionColegio) {
+        this.direccionColegio = direccionColegio;
     }
 
-    public String getDistrito() {
-        return distrito;
+    public String getDistritoColegio() {
+        return distritoColegio;
     }
 
-    public void setDistrito(String distrito) {
-        this.distrito = distrito;
+    public void setDistritoColegio(String distritoColegio) {
+        this.distritoColegio = distritoColegio;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public LocalDateTime getActualizadoEn() {
+        return actualizadoEn;
+    }
+
+    public void setActualizadoEn(LocalDateTime actualizadoEn) {
+        this.actualizadoEn = actualizadoEn;
     }
 }

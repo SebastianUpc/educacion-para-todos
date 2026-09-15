@@ -10,4 +10,8 @@ import java.util.List;
 public interface IColegioRepository extends JpaRepository<Colegio, Long> {
 
     List<Colegio> findAllByOrderByNombreAsc();
+    public Colegio save(Colegio colegio);
+    public Colegio delete(Long idColegio);
+    public Colegio update(Long idColegio);
+    public List<Colegio> findAll();
 }

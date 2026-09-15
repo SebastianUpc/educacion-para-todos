@@ -15,78 +15,82 @@ import java.time.LocalDateTime;
 @Table(name = "colegios")
 public class Colegio {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idColegio;
+    @Column(name="nombreColegio",length = 50,nullable = false)
+    private String nombreColegio;
+    @Column(name="direccionColegio",length = 50,nullable = false)
+    private String direccionColegio;
+    @Column(name="distritoColegio",length = 50,nullable = false)
+    private String distritoColegio;
+    @Column(name="fechaCreacionColegio",nullable = false)
+    private LocalDateTime fechaCreacionColegio;
+    @Column(name="actualizadoEnColegio",nullable = false)
+    private LocalDateTime actualizadoEnColegio;
 
-    @Column(nullable = false, length = 150)
-    private String nombre;
 
-    @Column(nullable = false, length = 100)
-    private String distrito;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     public Colegio() {
     }
 
-    public Colegio(String nombre, String distrito) {
-        this.nombre = nombre;
-        this.distrito = distrito;
+    public Colegio(Long idColegio, String nombreColegio, String direccionColegio, String distritoColegio, LocalDateTime fechaCreacionColegio, LocalDateTime actualizadoEnColegio) {
+        this.idColegio = idColegio;
+        this.nombreColegio = nombreColegio;
+        this.direccionColegio = direccionColegio;
+        this.distritoColegio = distritoColegio;
+        this.fechaCreacionColegio = fechaCreacionColegio;
+        this.actualizadoEnColegio = actualizadoEnColegio;
+
     }
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+    public Long getIdColegio() {
+        return idColegio;
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+    public void setIdColegio(Long idColegio) {
+        this.idColegio = idColegio;
     }
 
-    public Long getId() {
-        return id;
+    public String getNombreColegio() {
+        return nombreColegio;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setNombreColegio(String nombreColegio) {
+        this.nombreColegio = nombreColegio;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDireccionColegio() {
+        return direccionColegio;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDireccionColegio(String direccionColegio) {
+        this.direccionColegio = direccionColegio;
     }
 
-    public String getDistrito() {
-        return distrito;
+    public String getDistritoColegio() {
+        return distritoColegio;
     }
 
-    public void setDistrito(String distrito) {
-        this.distrito = distrito;
+    public void setDistritoColegio(String distritoColegio) {
+        this.distritoColegio = distritoColegio;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getFechaCreacionColegio() {
+        return fechaCreacionColegio;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setFechaCreacionColegio(LocalDateTime fechaCreacionColegio) {
+        this.fechaCreacionColegio = fechaCreacionColegio;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public LocalDateTime getActualizadoEnColegio() {
+        return actualizadoEnColegio;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setActualizadoEnColegio(LocalDateTime actualizadoEnColegio) {
+        this.actualizadoEnColegio = actualizadoEnColegio;
     }
 }
+

@@ -10,63 +10,89 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.IdGeneratorType;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "aulas")
+@Table
+@Entity(name = "aulas")
 public class Aula {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+    private Long idAula;
+    @Column(name="gradoAula",length = 10,nullable = false)
+    private String gradoAula;
+    @Column(name="seccionAula",length = 10, nullable = false)
+    private String seccionAula;
+    @Column(name="estadoAula",nullable = false)
+    private boolean estadoAula;
+    @Column(name="fechaCreacionAula",nullable = false)
+    private LocalDateTime fechaCreacionAula;
+    @Column(name="actualizadoEnAula",nullable = false)
+    private LocalDateTime actualizadoEnAula;
     @ManyToOne
-    @JoinColumn(name = "colegio_id", nullable = false)
+    @JoinColumn(name="idColegio")
     private Colegio colegio;
-
-    @Column(nullable = false, length = 20)
-    private String grado;
-
-    @Column(nullable = false, length = 5)
-    private String seccion;
-
-    @Column(length = 20)
-    private String estado;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     public Aula() {
     }
 
-    public Aula(Colegio colegio, String grado, String seccion, String estado) {
+    public Aula(Long idAula, String gradoAula, String seccionAula, boolean estadoAula, LocalDateTime fechaCreacionAula, LocalDateTime actualizadoEnAula, Colegio colegio) {
+        this.idAula = idAula;
+        this.gradoAula = gradoAula;
+        this.seccionAula = seccionAula;
+        this.estadoAula = estadoAula;
+        this.fechaCreacionAula = fechaCreacionAula;
+        this.actualizadoEnAula = actualizadoEnAula;
         this.colegio = colegio;
-        this.grado = grado;
-        this.seccion = seccion;
-        this.estado = estado;
     }
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+    public Long getIdAula() {
+        return idAula;
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+    public void setIdAula(Long idAula) {
+        this.idAula = idAula;
     }
 
-    public Long getId() {
-        return id;
+    public String getGradoAula() {
+        return gradoAula;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setGradoAula(String gradoAula) {
+        this.gradoAula = gradoAula;
+    }
+
+    public String getSeccionAula() {
+        return seccionAula;
+    }
+
+    public void setSeccionAula(String seccionAula) {
+        this.seccionAula = seccionAula;
+    }
+
+    public boolean isEstadoAula() {
+        return estadoAula;
+    }
+
+    public void setEstadoAula(boolean estadoAula) {
+        this.estadoAula = estadoAula;
+    }
+
+    public LocalDateTime getFechaCreacionAula() {
+        return fechaCreacionAula;
+    }
+
+    public void setFechaCreacionAula(LocalDateTime fechaCreacionAula) {
+        this.fechaCreacionAula = fechaCreacionAula;
+    }
+
+    public LocalDateTime getActualizadoEnAula() {
+        return actualizadoEnAula;
+    }
+
+    public void setActualizadoEnAula(LocalDateTime actualizadoEnAula) {
+        this.actualizadoEnAula = actualizadoEnAula;
     }
 
     public Colegio getColegio() {
@@ -75,45 +101,5 @@ public class Aula {
 
     public void setColegio(Colegio colegio) {
         this.colegio = colegio;
-    }
-
-    public String getGrado() {
-        return grado;
-    }
-
-    public void setGrado(String grado) {
-        this.grado = grado;
-    }
-
-    public String getSeccion() {
-        return seccion;
-    }
-
-    public void setSeccion(String seccion) {
-        this.seccion = seccion;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
     }
 }

@@ -11,34 +11,34 @@ import java.util.Optional;
 @Service
 public class ColegioServiceImplement implements IColegioService {
 
-    private final IColegioRepository colegioRepository;
+    private final IColegioRepository cR;
 
-    public ColegioServiceImplement(IColegioRepository colegioRepository) {
-        this.colegioRepository = colegioRepository;
+    public ColegioServiceImplement(IColegioRepository cR) {
+        this.cR = cR;
     }
 
     @Override
     public void insert(Colegio u) {
-        colegioRepository.save(u);
+        cR.save(u);
     }
 
     @Override
     public List<Colegio> list() {
-        return colegioRepository.findAll();
+        return cR.findAll();
     }
 
     @Override
     public Optional<Colegio> listId(Long id) {
-        return colegioRepository.findById(id);
+        return cR.findById(id);
     }
 
     @Override
     public void update(Colegio u) {
-        colegioRepository.save(u);
+        cR.save(u);
     }
 
     @Override
     public void delete(Long id) {
-        colegioRepository.deleteById(id);
+        cR.deleteById(id);
     }
 }

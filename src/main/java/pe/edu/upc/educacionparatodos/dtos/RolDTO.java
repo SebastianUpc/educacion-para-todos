@@ -1,37 +1,52 @@
 package pe.edu.upc.educacionparatodos.dtos;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 public class RolDTO {
 
-    private Long id;
+    private Long idRol;
+    private String nombreRol;
+    private String descripcionRol;
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime actualizadoEn;
 
-    @NotBlank(message = "El nombre es obligatorio")
-    @Size(max = 30, message = "El nombre no puede superar los 30 caracteres")
-    private String nombre;
-
-    public RolDTO() {
+    public Long getIdRol() {
+        return idRol;
     }
 
-    public RolDTO(Long id, String nombre) {
-        this.id = id;
-        this.nombre = nombre;
+    public void setIdRol(Long idRol) {
+        this.idRol = idRol;
     }
 
-    public Long getId() {
-        return id;
+    public String getNombreRol() {
+        return nombreRol;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setNombreRol(String nombreRol) {
+        this.nombreRol = nombreRol;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDescripcionRol() {
+        return descripcionRol;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDescripcionRol(String descripcionRol) {
+        this.descripcionRol = descripcionRol;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public LocalDateTime getActualizadoEn() {
+        return actualizadoEn;
+    }
+
+    public void setActualizadoEn(LocalDateTime actualizadoEn) {
+        this.actualizadoEn = actualizadoEn;
     }
 }

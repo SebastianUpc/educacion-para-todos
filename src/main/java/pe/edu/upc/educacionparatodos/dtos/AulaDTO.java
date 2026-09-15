@@ -1,44 +1,23 @@
 package pe.edu.upc.educacionparatodos.dtos;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 public class AulaDTO {
 
-    private Long id;
-
-    @NotNull(message = "El colegio es obligatorio")
+    private Long idAula;
     private Long idColegio;
+    private String gradoAula;
+    private String seccionAula;
+    private boolean estadoAula;
+    private LocalDateTime fechaCreacion;
+    private LocalDateTime actualizadoEn;
 
-    @NotBlank(message = "El grado es obligatorio")
-    @Size(max = 20, message = "El grado no puede superar los 20 caracteres")
-    private String grado;
-
-    @NotBlank(message = "La sección es obligatoria")
-    @Size(max = 5, message = "La sección no puede superar los 5 caracteres")
-    private String seccion;
-
-    @Size(max = 20, message = "El estado no puede superar los 20 caracteres")
-    private String estado;
-
-    public AulaDTO() {
+    public Long getIdAula() {
+        return idAula;
     }
 
-    public AulaDTO(Long id, Long idColegio, String grado, String seccion, String estado) {
-        this.id = id;
-        this.idColegio = idColegio;
-        this.grado = grado;
-        this.seccion = seccion;
-        this.estado = estado;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdAula(Long idAula) {
+        this.idAula = idAula;
     }
 
     public Long getIdColegio() {
@@ -49,27 +28,43 @@ public class AulaDTO {
         this.idColegio = idColegio;
     }
 
-    public String getGrado() {
-        return grado;
+    public String getGradoAula() {
+        return gradoAula;
     }
 
-    public void setGrado(String grado) {
-        this.grado = grado;
+    public void setGradoAula(String gradoAula) {
+        this.gradoAula = gradoAula;
     }
 
-    public String getSeccion() {
-        return seccion;
+    public String getSeccionAula() {
+        return seccionAula;
     }
 
-    public void setSeccion(String seccion) {
-        this.seccion = seccion;
+    public void setSeccionAula(String seccionAula) {
+        this.seccionAula = seccionAula;
     }
 
-    public String getEstado() {
-        return estado;
+    public boolean isEstadoAula() {
+        return estadoAula;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setEstadoAula(boolean estadoAula) {
+        this.estadoAula = estadoAula;
+    }
+
+    public LocalDateTime getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+
+    public LocalDateTime getActualizadoEn() {
+        return actualizadoEn;
+    }
+
+    public void setActualizadoEn(LocalDateTime actualizadoEn) {
+        this.actualizadoEn = actualizadoEn;
     }
 }

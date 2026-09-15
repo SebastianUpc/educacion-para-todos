@@ -1,80 +1,72 @@
 package pe.edu.upc.educacionparatodos.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "roles")
+@Table(name="roles")
 public class Rol {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, length = 30)
-    private String nombre;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Long idRol;
+    @Column(name="nombreRol",length = 50,nullable = false)
+    private String nombreRol;
+    @Column(name="descripcionRol",length = 100,nullable = false)
+    private String descripcionRol;
+    @Column(name="fechaCreacionRol",nullable = false)
+    private LocalDateTime fechaCreacionRol;
+    @Column(name="actualizadoEnRol",nullable = false)
+    private LocalDateTime actualizadoEnRol;
 
     public Rol() {
     }
 
-    public Rol(String nombre) {
-        this.nombre = nombre;
+    public Rol(Long idRol, String nombreRol, String descripcionRol, LocalDateTime fechaCreacionRol, LocalDateTime actualizadoEnRol) {
+        this.idRol = idRol;
+        this.nombreRol = nombreRol;
+        this.descripcionRol = descripcionRol;
+        this.fechaCreacionRol = fechaCreacionRol;
+        this.actualizadoEnRol = actualizadoEnRol;
     }
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+    public Long getIdRol() {
+        return idRol;
     }
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+    public void setIdRol(Long idRol) {
+        this.idRol = idRol;
     }
 
-    public Long getId() {
-        return id;
+    public String getNombreRol() {
+        return nombreRol;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setNombreRol(String nombreRol) {
+        this.nombreRol = nombreRol;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDescripcionRol() {
+        return descripcionRol;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDescripcionRol(String descripcionRol) {
+        this.descripcionRol = descripcionRol;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getFechaCreacionRol() {
+        return fechaCreacionRol;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setFechaCreacionRol(LocalDateTime fechaCreacionRol) {
+        this.fechaCreacionRol = fechaCreacionRol;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public LocalDateTime getActualizadoEnRol() {
+        return actualizadoEnRol;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setActualizadoEnRol(LocalDateTime actualizadoEnRol) {
+        this.actualizadoEnRol = actualizadoEnRol;
     }
 }
