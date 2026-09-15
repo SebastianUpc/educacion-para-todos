@@ -4,34 +4,34 @@ import java.time.LocalDateTime;
 
 public class RolDTO {
 
-    private Long idRol;
-    private String nombreRol;
-    private String descripcionRol;
+    private Long id;
+    private String nombre;
+    private String descripcion;
     private LocalDateTime fechaCreacion;
     private LocalDateTime actualizadoEn;
 
-    public Long getIdRol() {
-        return idRol;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdRol(Long idRol) {
-        this.idRol = idRol;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getNombreRol() {
-        return nombreRol;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreRol(String nombreRol) {
-        this.nombreRol = nombreRol;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getDescripcionRol() {
-        return descripcionRol;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripcionRol(String descripcionRol) {
-        this.descripcionRol = descripcionRol;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public LocalDateTime getFechaCreacion() {
@@ -50,9 +50,5 @@ public class RolDTO {
         this.actualizadoEn = actualizadoEn;
     }
 
-    public Long getId() { return this.idRol; }
-    public void setId(Long id) { this.idRol = id; }
-    public String getNombre() { return this.nombreRol; }
-    public void setNombre(String nombre) { this.nombreRol = nombre; }
 }
 

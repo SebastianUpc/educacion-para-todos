@@ -58,14 +58,14 @@ public class RolController {
         }
 
         Rol rol = modelMapper.map(dto, Rol.class);
-        rol.setIdRol(null);
+        rol.setId(null);
 
         rS.insert(rol);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(rol.getIdRol())
+                .buildAndExpand(rol.getId())
                 .toUri();
 
         return ResponseEntity.created(location).body(modelMapper.map(rol, pe.edu.upc.educacionparatodos.dtos.RolDTO.class));

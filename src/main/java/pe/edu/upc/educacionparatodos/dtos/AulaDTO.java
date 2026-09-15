@@ -4,20 +4,20 @@ import java.time.LocalDateTime;
 
 public class AulaDTO {
 
-    private Long idAula;
+    private Long id;
     private Long idColegio;
-    private String gradoAula;
-    private String seccionAula;
-    private boolean estadoAula;
+    private String grado;
+    private String seccion;
+    private boolean estado;
     private LocalDateTime fechaCreacion;
     private LocalDateTime actualizadoEn;
 
-    public Long getIdAula() {
-        return idAula;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdAula(Long idAula) {
-        this.idAula = idAula;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getIdColegio() {
@@ -28,28 +28,28 @@ public class AulaDTO {
         this.idColegio = idColegio;
     }
 
-    public String getGradoAula() {
-        return gradoAula;
+    public String getGrado() {
+        return grado;
     }
 
-    public void setGradoAula(String gradoAula) {
-        this.gradoAula = gradoAula;
+    public void setGrado(String grado) {
+        this.grado = grado;
     }
 
-    public String getSeccionAula() {
-        return seccionAula;
+    public String getSeccion() {
+        return seccion;
     }
 
-    public void setSeccionAula(String seccionAula) {
-        this.seccionAula = seccionAula;
+    public void setSeccion(String seccion) {
+        this.seccion = seccion;
     }
 
-    public boolean isEstadoAula() {
-        return estadoAula;
+    public boolean isEstado() {
+        return estado;
     }
 
-    public void setEstadoAula(boolean estadoAula) {
-        this.estadoAula = estadoAula;
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
     public LocalDateTime getFechaCreacion() {
@@ -68,11 +68,5 @@ public class AulaDTO {
         this.actualizadoEn = actualizadoEn;
     }
 
-    public Long getId() { return this.idAula; }
-    public void setId(Long id) { this.idAula = id; }
-    public String getGrado() { return this.gradoAula; }
-    public void setGrado(String grado) { this.gradoAula = grado; }
-    public String getSeccion() { return this.seccionAula; }
-    public void setSeccion(String seccion) { this.seccionAula = seccion; }
 }
 

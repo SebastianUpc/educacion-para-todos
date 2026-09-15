@@ -4,43 +4,43 @@ import java.time.LocalDateTime;
 
 public class ColegioDTO {
 
-    private Long idColegio;
-    private String nombreColegio;
-    private String direccionColegio;
-    private String distritoColegio;
+    private Long id;
+    private String nombre;
+    private String direccion;
+    private String distrito;
     private LocalDateTime fechaCreacion;
     private LocalDateTime actualizadoEn;
 
-    public Long getIdColegio() {
-        return idColegio;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdColegio(Long idColegio) {
-        this.idColegio = idColegio;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getNombreColegio() {
-        return nombreColegio;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreColegio(String nombreColegio) {
-        this.nombreColegio = nombreColegio;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getDireccionColegio() {
-        return direccionColegio;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setDireccionColegio(String direccionColegio) {
-        this.direccionColegio = direccionColegio;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public String getDistritoColegio() {
-        return distritoColegio;
+    public String getDistrito() {
+        return distrito;
     }
 
-    public void setDistritoColegio(String distritoColegio) {
-        this.distritoColegio = distritoColegio;
+    public void setDistrito(String distrito) {
+        this.distrito = distrito;
     }
 
     public LocalDateTime getFechaCreacion() {
@@ -59,9 +59,5 @@ public class ColegioDTO {
         this.actualizadoEn = actualizadoEn;
     }
 
-    public Long getId() { return this.idColegio; }
-    public void setId(Long id) { this.idColegio = id; }
-    public String getNombre() { return this.nombreColegio; }
-    public void setNombre(String nombre) { this.nombreColegio = nombre; }
 }
 

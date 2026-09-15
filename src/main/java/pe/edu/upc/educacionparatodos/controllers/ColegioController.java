@@ -42,30 +42,31 @@ public class ColegioController {
         return ResponseEntity.ok(modelMapper.map(colegio, ColegioDTO.class));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        Colegio colegio = cS.listId(id).orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + id));
+        cS.delete(colegio.getId());
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping
     public ResponseEntity<ColegioDTO> registrar(@Valid @RequestBody ColegioInsertDTO dto) {
         Colegio colegio = modelMapper.map(dto, Colegio.class);
-        colegio.setIdColegio(null);
+        colegio.setId(null);
         cS.insert(colegio);
         ColegioDTO response = modelMapper.map(colegio, ColegioDTO.class);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(colegio.getIdColegio()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(colegio.getId()).toUri();
         return ResponseEntity.created(location).body(response);
     }
 
     @PutMapping
     public ResponseEntity<ColegioDTO> actualizar(@Valid @RequestBody ColegioDTO dto) {
-        Colegio existente = cS.listId(dto.getIdColegio()).orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + dto.getIdColegio()));
-        existente.setNombreColegio(dto.getNombreColegio());
-        existente.setDireccionColegio(dto.getDireccionColegio());
-        existente.setDistritoColegio(dto.getDistritoColegio());
+        Colegio existente = cS.listId(dto.getId()).orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + dto.getId()));
+        existente.setNombre(dto.getNombre());
+        existente.setDireccion(dto.getDireccion());
+        existente.setDistrito(dto.getDistrito());
         cS.update(existente);
         return ResponseEntity.ok(modelMapper.map(existente, ColegioDTO.class));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-        Colegio colegio = cS.listId(id).orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + id));
-        cS.delete(colegio.getIdColegio());
-        return ResponseEntity.noContent().build();
-    }
 }
