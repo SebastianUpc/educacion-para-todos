@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idRol;
+    private Long id;
     @Column(name="nombreRol",length = 50,nullable = false)
-    private String nombreRol;
+    private String nombre;
     @Column(name="descripcionRol",length = 100,nullable = false)
     private String descripcionRol;
     @Column(name="fechaCreacionRol",nullable = false)
@@ -22,28 +22,28 @@ public class Rol {
     public Rol() {
     }
 
-    public Rol(Long idRol, String nombreRol, String descripcionRol, LocalDateTime fechaCreacionRol, LocalDateTime actualizadoEnRol) {
-        this.idRol = idRol;
-        this.nombreRol = nombreRol;
+    public Rol(Long id, String nombre, String descripcionRol, LocalDateTime fechaCreacionRol, LocalDateTime actualizadoEnRol) {
+        this.id = id;
+        this.nombre = nombre;
         this.descripcionRol = descripcionRol;
         this.fechaCreacionRol = fechaCreacionRol;
         this.actualizadoEnRol = actualizadoEnRol;
     }
 
-    public Long getIdRol() {
-        return idRol;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdRol(Long idRol) {
-        this.idRol = idRol;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getNombreRol() {
-        return nombreRol;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreRol(String nombreRol) {
-        this.nombreRol = nombreRol;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getDescripcionRol() {
@@ -69,10 +69,5 @@ public class Rol {
     public void setActualizadoEnRol(LocalDateTime actualizadoEnRol) {
         this.actualizadoEnRol = actualizadoEnRol;
     }
-
-    public Long getId() { return this.idRol; }
-    public void setId(Long id) { this.idRol = id; }
-    public String getNombre() { return this.nombreRol; }
-    public void setNombre(String nombre) { this.nombreRol = nombre; }
 }
 

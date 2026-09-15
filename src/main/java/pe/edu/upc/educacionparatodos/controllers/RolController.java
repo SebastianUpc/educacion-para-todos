@@ -58,14 +58,14 @@ public class RolController {
         }
 
         Rol rol = modelMapper.map(dto, Rol.class);
-        rol.setIdRol(null);
+        rol.setId(null);
 
         rS.insert(rol);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(rol.getIdRol())
+                .buildAndExpand(rol.getId())
                 .toUri();
 
         return ResponseEntity.created(location).body(modelMapper.map(rol, pe.edu.upc.educacionparatodos.dtos.RolDTO.class));
@@ -73,19 +73,19 @@ public class RolController {
 
     @PutMapping
     public ResponseEntity<RolDTO> actualizar(@Valid @RequestBody RolDTO dto) {
-        Rol rol = rS.listId(dto.getIdRol())
+        Rol rol = rS.listId(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "No existe un rol con el id: " + dto.getIdRol()
+                        "No existe un rol con el id: " + dto.getId()
                 ));
 
-        boolean cambioDeNombre = !rol.getNombre().equals(dto.getNombreRol());
-        if (cambioDeNombre && rS.existsByNombre(dto.getNombreRol())) {
+        boolean cambioDeNombre = !rol.getNombre().equals(dto.getNombre());
+        if (cambioDeNombre && rS.existsByNombre(dto.getNombre())) {
             throw new BusinessRuleException(
-                    "Ya existe otro rol con el nombre: " + dto.getNombreRol()
+                    "Ya existe otro rol con el nombre: " + dto.getNombre()
             );
         }
 
-        rol.setNombre(dto.getNombreRol());
+        rol.setNombre(dto.getNombre());
 
         rS.update(rol);
 

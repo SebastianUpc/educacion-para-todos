@@ -10,6 +10,5 @@ import java.util.Optional;
 @Repository
 public interface IAulaRepository extends JpaRepository<Aula, Long> {
 
-    Optional<Aula> findByIdAula(Long idAula);
     public boolean existsByColegioId(Long colegioId);
 }

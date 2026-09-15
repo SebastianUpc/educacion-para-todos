@@ -19,13 +19,13 @@ import java.time.LocalDateTime;
 public class Aula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idAula;
+    private Long id;
     @Column(name="gradoAula",length = 10,nullable = false)
-    private String gradoAula;
+    private String grado;
     @Column(name="seccionAula",length = 10, nullable = false)
-    private String seccionAula;
+    private String seccion;
     @Column(name="estadoAula",nullable = false)
-    private boolean estadoAula;
+    private boolean estado;
     @Column(name="fechaCreacionAula",nullable = false)
     private LocalDateTime fechaCreacionAula;
     @Column(name="actualizadoEnAula",nullable = false)
@@ -37,46 +37,46 @@ public class Aula {
     public Aula() {
     }
 
-    public Aula(Long idAula, String gradoAula, String seccionAula, boolean estadoAula, LocalDateTime fechaCreacionAula, LocalDateTime actualizadoEnAula, Colegio colegio) {
-        this.idAula = idAula;
-        this.gradoAula = gradoAula;
-        this.seccionAula = seccionAula;
-        this.estadoAula = estadoAula;
+    public Aula(Long id, String grado, String seccion, boolean estado, LocalDateTime fechaCreacionAula, LocalDateTime actualizadoEnAula, Colegio colegio) {
+        this.id = id;
+        this.grado = grado;
+        this.seccion = seccion;
+        this.estado = estado;
         this.fechaCreacionAula = fechaCreacionAula;
         this.actualizadoEnAula = actualizadoEnAula;
         this.colegio = colegio;
     }
 
-    public Long getIdAula() {
-        return idAula;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdAula(Long idAula) {
-        this.idAula = idAula;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getGradoAula() {
-        return gradoAula;
+    public String getGrado() {
+        return grado;
     }
 
-    public void setGradoAula(String gradoAula) {
-        this.gradoAula = gradoAula;
+    public void setGrado(String grado) {
+        this.grado = grado;
     }
 
-    public String getSeccionAula() {
-        return seccionAula;
+    public String getSeccion() {
+        return seccion;
     }
 
-    public void setSeccionAula(String seccionAula) {
-        this.seccionAula = seccionAula;
+    public void setSeccion(String seccion) {
+        this.seccion = seccion;
     }
 
-    public boolean isEstadoAula() {
-        return estadoAula;
+    public boolean isEstado() {
+        return estado;
     }
 
-    public void setEstadoAula(boolean estadoAula) {
-        this.estadoAula = estadoAula;
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
     public LocalDateTime getFechaCreacionAula() {
@@ -102,8 +102,4 @@ public class Aula {
     public void setColegio(Colegio colegio) {
         this.colegio = colegio;
     }
-
-    public Long getId() { return this.idAula; }
-    public void setId(Long id) { this.idAula = id; }
-    public String getNombre() { return this.gradoAula; } // nombre genérico para compatibilidad
 }

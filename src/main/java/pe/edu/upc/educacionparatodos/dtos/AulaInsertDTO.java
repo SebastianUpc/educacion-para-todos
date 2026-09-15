@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public class AulaInsertDTO {
 
-    private Long idAula;
+    private Long id;
 
     @NotNull(message = "El colegio es obligatorio")
     private Long idColegio;
@@ -25,12 +25,12 @@ public class AulaInsertDTO {
 
 
 
-    public Long getIdAula() {
-        return idAula;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdAula(Long idAula) {
-        this.idAula = idAula;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getIdColegio() {

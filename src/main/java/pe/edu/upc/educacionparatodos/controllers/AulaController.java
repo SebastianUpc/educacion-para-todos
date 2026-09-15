@@ -53,22 +53,22 @@ public class AulaController {
 
         Aula aula = modelMapper.map(dto, Aula.class);
         aula.setColegio(colegio);
-        aula.setIdAula(null);
+        aula.setId(null);
         aS.insert(aula);
 
         AulaDTO response = modelMapper.map(aula, AulaDTO.class);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aula.getIdAula()).toUri();
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(aula.getId()).toUri();
         return ResponseEntity.created(location).body(response);
     }
 
     @PutMapping
     public ResponseEntity<AulaDTO> actualizar(@Valid @RequestBody AulaDTO dto) {
-        Aula existente = aS.listId(dto.getIdAula()).orElseThrow(() -> new ResourceNotFoundException("No existe un aula con el id: " + dto.getIdAula()));
+        Aula existente = aS.listId(dto.getId()).orElseThrow(() -> new ResourceNotFoundException("No existe un aula con el id: " + dto.getId()));
         Colegio colegio = cS.listId(dto.getIdColegio()).orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + dto.getIdColegio()));
 
-        existente.setGradoAula(dto.getGradoAula());
-        existente.setSeccionAula(dto.getSeccionAula());
-        existente.setEstadoAula(dto.isEstadoAula());
+        existente.setGrado(dto.getGrado());
+        existente.setSeccion(dto.getSeccion());
+        existente.setEstado(dto.isEstado());
         existente.setColegio(colegio);
 
         aS.update(existente);
@@ -78,7 +78,7 @@ public class AulaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         Aula aula = aS.listId(id).orElseThrow(() -> new ResourceNotFoundException("No existe un aula con el id: " + id));
-        aS.delete(aula.getIdAula());
+        aS.delete(aula.getId());
         return ResponseEntity.noContent().build();
     }
 }
