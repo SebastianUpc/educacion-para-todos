@@ -102,4 +102,9 @@ public class Aula {
     public void setColegio(Colegio colegio) {
         this.colegio = colegio;
     }
+
+    // Compatibilidad: getters cortos usados por controladores existentes
+    public Long getId() { return this.idAula; }
+    public void setId(Long id) { this.idAula = id; }
+    public String getNombre() { return this.gradoAula; } // nombre genérico para compatibilidad
 }

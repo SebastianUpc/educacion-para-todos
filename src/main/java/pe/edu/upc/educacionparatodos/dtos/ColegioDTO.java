@@ -58,4 +58,10 @@ public class ColegioDTO {
     public void setActualizadoEn(LocalDateTime actualizadoEn) {
         this.actualizadoEn = actualizadoEn;
     }
+
+    public Long getId() { return this.idColegio; }
+    public void setId(Long id) { this.idColegio = id; }
+    public String getNombre() { return this.nombreColegio; }
+    public void setNombre(String nombre) { this.nombreColegio = nombre; }
 }
+

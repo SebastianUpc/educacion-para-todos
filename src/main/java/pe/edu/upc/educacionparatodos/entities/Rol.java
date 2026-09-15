@@ -69,4 +69,11 @@ public class Rol {
     public void setActualizadoEnRol(LocalDateTime actualizadoEnRol) {
         this.actualizadoEnRol = actualizadoEnRol;
     }
+
+    // Compatibilidad: getters cortos usados en controladores existentes
+    public Long getId() { return this.idRol; }
+    public void setId(Long id) { this.idRol = id; }
+    public String getNombre() { return this.nombreRol; }
+    public void setNombre(String nombre) { this.nombreRol = nombre; }
 }
+

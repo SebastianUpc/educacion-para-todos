@@ -49,4 +49,10 @@ public class RolDTO {
     public void setActualizadoEn(LocalDateTime actualizadoEn) {
         this.actualizadoEn = actualizadoEn;
     }
+
+    public Long getId() { return this.idRol; }
+    public void setId(Long id) { this.idRol = id; }
+    public String getNombre() { return this.nombreRol; }
+    public void setNombre(String nombre) { this.nombreRol = nombre; }
 }
+
