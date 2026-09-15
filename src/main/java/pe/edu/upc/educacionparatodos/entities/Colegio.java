@@ -18,13 +18,13 @@ public class Colegio {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idColegio;
+    private Long id;
     @Column(name="nombreColegio",length = 50,nullable = false)
-    private String nombreColegio;
+    private String nombre;
     @Column(name="direccionColegio",length = 50,nullable = false)
-    private String direccionColegio;
+    private String direccion;
     @Column(name="distritoColegio",length = 50,nullable = false)
-    private String distritoColegio;
+    private String distrito;
     @Column(name="fechaCreacionColegio",nullable = false)
     private LocalDateTime fechaCreacionColegio;
     @Column(name="actualizadoEnColegio",nullable = false)
@@ -35,46 +35,46 @@ public class Colegio {
     public Colegio() {
     }
 
-    public Colegio(Long idColegio, String nombreColegio, String direccionColegio, String distritoColegio, LocalDateTime fechaCreacionColegio, LocalDateTime actualizadoEnColegio) {
-        this.idColegio = idColegio;
-        this.nombreColegio = nombreColegio;
-        this.direccionColegio = direccionColegio;
-        this.distritoColegio = distritoColegio;
+    public Colegio(Long id, String nombre, String direccion, String distrito, LocalDateTime fechaCreacionColegio, LocalDateTime actualizadoEnColegio) {
+        this.id = id;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.distrito = distrito;
         this.fechaCreacionColegio = fechaCreacionColegio;
         this.actualizadoEnColegio = actualizadoEnColegio;
 
     }
 
-    public Long getIdColegio() {
-        return idColegio;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdColegio(Long idColegio) {
-        this.idColegio = idColegio;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getNombreColegio() {
-        return nombreColegio;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombreColegio(String nombreColegio) {
-        this.nombreColegio = nombreColegio;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getDireccionColegio() {
-        return direccionColegio;
+    public String getDireccion() {
+        return direccion;
     }
 
-    public void setDireccionColegio(String direccionColegio) {
-        this.direccionColegio = direccionColegio;
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
     }
 
-    public String getDistritoColegio() {
-        return distritoColegio;
+    public String getDistrito() {
+        return distrito;
     }
 
-    public void setDistritoColegio(String distritoColegio) {
-        this.distritoColegio = distritoColegio;
+    public void setDistrito(String distrito) {
+        this.distrito = distrito;
     }
 
     public LocalDateTime getFechaCreacionColegio() {
@@ -92,5 +92,6 @@ public class Colegio {
     public void setActualizadoEnColegio(LocalDateTime actualizadoEnColegio) {
         this.actualizadoEnColegio = actualizadoEnColegio;
     }
+
 }
 

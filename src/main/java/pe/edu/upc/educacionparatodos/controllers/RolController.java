@@ -73,19 +73,19 @@ public class RolController {
 
     @PutMapping
     public ResponseEntity<RolDTO> actualizar(@Valid @RequestBody RolDTO dto) {
-        Rol rol = rS.listId(dto.getId())
+        Rol rol = rS.listId(dto.getIdRol())
                 .orElseThrow(() -> new ResourceNotFoundException(
-                        "No existe un rol con el id: " + dto.getId()
+                        "No existe un rol con el id: " + dto.getIdRol()
                 ));
 
-        boolean cambioDeNombre = !rol.getNombre().equals(dto.getNombre());
-        if (cambioDeNombre && rS.existsByNombre(dto.getNombre())) {
+        boolean cambioDeNombre = !rol.getNombre().equals(dto.getNombreRol());
+        if (cambioDeNombre && rS.existsByNombre(dto.getNombreRol())) {
             throw new BusinessRuleException(
-                    "Ya existe otro rol con el nombre: " + dto.getNombre()
+                    "Ya existe otro rol con el nombre: " + dto.getNombreRol()
             );
         }
 
-        rol.setNombre(dto.getNombre());
+        rol.setNombre(dto.getNombreRol());
 
         rS.update(rol);
 

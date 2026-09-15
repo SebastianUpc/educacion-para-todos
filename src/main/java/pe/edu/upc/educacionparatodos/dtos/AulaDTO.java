@@ -68,11 +68,5 @@ public class AulaDTO {
         this.actualizadoEn = actualizadoEn;
     }
 
-    public Long getId() { return this.idAula; }
-    public void setId(Long id) { this.idAula = id; }
-    public String getGrado() { return this.gradoAula; }
-    public void setGrado(String grado) { this.gradoAula = grado; }
-    public String getSeccion() { return this.seccionAula; }
-    public void setSeccion(String seccion) { this.seccionAula = seccion; }
 }
 

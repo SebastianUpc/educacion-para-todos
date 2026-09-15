@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public class ColegioInsertDTO {
 
-    private Long idColegio;
+    private Long id;
 
     @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
@@ -21,12 +21,12 @@ public class ColegioInsertDTO {
     private LocalDateTime fechaCreacion;
     private LocalDateTime actualizadoEn;
 
-    public Long getIdColegio() {
-        return idColegio;
+    public Long getId() {
+        return id;
     }
 
-    public void setIdColegio(Long idColegio) {
-        this.idColegio = idColegio;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
