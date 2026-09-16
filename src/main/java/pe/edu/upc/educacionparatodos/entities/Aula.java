@@ -14,24 +14,24 @@ import org.hibernate.annotations.IdGeneratorType;
 
 import java.time.LocalDateTime;
 
-@Table
-@Entity(name = "aulas")
+@Entity
+@Table(name = "aulas")
 public class Aula {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="gradoAula",length = 10,nullable = false)
+    @Column(name="grado", length = 10, nullable = false)
     private String grado;
-    @Column(name="seccionAula",length = 10, nullable = false)
+    @Column(name="seccion", length = 10, nullable = false)
     private String seccion;
-    @Column(name="estadoAula",nullable = false)
+    @Column(name="estado", nullable = false)
     private boolean estado;
-    @Column(name="fechaCreacionAula",nullable = false)
+    @Column(name="fecha_creacion_aula", nullable = false)
     private LocalDateTime fechaCreacionAula;
-    @Column(name="actualizadoEnAula",nullable = false)
+    @Column(name="actualizado_en_aula", nullable = false)
     private LocalDateTime actualizadoEnAula;
     @ManyToOne
-    @JoinColumn(name="idColegio")
+    @JoinColumn(name = "id_colegio")
     private Colegio colegio;
 
     public Aula() {
@@ -45,6 +45,17 @@ public class Aula {
         this.fechaCreacionAula = fechaCreacionAula;
         this.actualizadoEnAula = actualizadoEnAula;
         this.colegio = colegio;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.fechaCreacionAula = LocalDateTime.now();
+        this.actualizadoEnAula = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.actualizadoEnAula = LocalDateTime.now();
     }
 
     public Long getId() {

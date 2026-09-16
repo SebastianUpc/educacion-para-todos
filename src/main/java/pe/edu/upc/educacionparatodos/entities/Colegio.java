@@ -19,15 +19,15 @@ public class Colegio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="nombreColegio",length = 50,nullable = false)
+    @Column(name="nombre",length = 50,nullable = false)
     private String nombre;
-    @Column(name="direccionColegio",length = 50,nullable = false)
+    @Column(name="direccion",length = 50,nullable = false)
     private String direccion;
-    @Column(name="distritoColegio",length = 50,nullable = false)
+    @Column(name="distrito",length = 50,nullable = false)
     private String distrito;
-    @Column(name="fechaCreacionColegio",nullable = false)
+    @Column(name="fecha_creacion_colegio", nullable = false)
     private LocalDateTime fechaCreacionColegio;
-    @Column(name="actualizadoEnColegio",nullable = false)
+    @Column(name="actualizado_en_colegio", nullable = false)
     private LocalDateTime actualizadoEnColegio;
 
 
@@ -43,6 +43,17 @@ public class Colegio {
         this.fechaCreacionColegio = fechaCreacionColegio;
         this.actualizadoEnColegio = actualizadoEnColegio;
 
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.fechaCreacionColegio = LocalDateTime.now();
+        this.actualizadoEnColegio = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.actualizadoEnColegio = LocalDateTime.now();
     }
 
     public Long getId() {

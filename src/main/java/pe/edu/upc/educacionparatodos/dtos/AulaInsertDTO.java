@@ -17,8 +17,8 @@ public class AulaInsertDTO {
 
     @NotBlank(message = "La sección es obligatoria")
     private String seccion;
-    @NotBlank(message = "El estado es obligatorio")
-    private boolean estado;
+    @NotNull(message = "El estado es obligatorio")
+    private Boolean estado;
 
     private LocalDateTime fechaCreacion;
     private LocalDateTime actualizadoEn;

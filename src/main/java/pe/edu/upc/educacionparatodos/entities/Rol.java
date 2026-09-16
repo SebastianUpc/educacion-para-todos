@@ -10,13 +10,13 @@ public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name="nombreRol",length = 50,nullable = false)
+    @Column(name="nombre_rol",length = 50,nullable = false)
     private String nombre;
-    @Column(name="descripcionRol",length = 100,nullable = false)
+    @Column(name="descripcion_rol",length = 100,nullable = false)
     private String descripcionRol;
-    @Column(name="fechaCreacionRol",nullable = false)
+    @Column(name="fecha_creacion_rol", nullable = false)
     private LocalDateTime fechaCreacionRol;
-    @Column(name="actualizadoEnRol",nullable = false)
+    @Column(name="actualizado_en_rol", nullable = false)
     private LocalDateTime actualizadoEnRol;
 
     public Rol() {
@@ -28,6 +28,17 @@ public class Rol {
         this.descripcionRol = descripcionRol;
         this.fechaCreacionRol = fechaCreacionRol;
         this.actualizadoEnRol = actualizadoEnRol;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.fechaCreacionRol = LocalDateTime.now();
+        this.actualizadoEnRol = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.actualizadoEnRol = LocalDateTime.now();
     }
 
     public Long getId() {
