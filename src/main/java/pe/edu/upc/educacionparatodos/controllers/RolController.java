@@ -50,7 +50,7 @@ public class RolController {
     }
 
     @PostMapping
-    public ResponseEntity<RolDTO> registrar(@Valid @RequestBody RolDTO dto) {
+    public ResponseEntity<RolDTO> registrar(@Valid @RequestBody pe.edu.upc.educacionparatodos.dtos.RolInsertDTO dto) {
         if (rS.existsByNombre(dto.getNombre())) {
             throw new BusinessRuleException(
                     "Ya existe un rol con el nombre: " + dto.getNombre()
@@ -68,7 +68,7 @@ public class RolController {
                 .buildAndExpand(rol.getId())
                 .toUri();
 
-        return ResponseEntity.created(location).body(modelMapper.map(rol, RolDTO.class));
+        return ResponseEntity.created(location).body(modelMapper.map(rol, pe.edu.upc.educacionparatodos.dtos.RolDTO.class));
     }
 
     @PutMapping

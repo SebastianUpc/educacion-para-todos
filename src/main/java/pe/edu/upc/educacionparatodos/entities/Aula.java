@@ -10,55 +10,52 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.IdGeneratorType;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "aulas")
 public class Aula {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "colegio_id", nullable = false)
-    private Colegio colegio;
-
-    @Column(nullable = false, length = 20)
+    @Column(name="grado", length = 10, nullable = false)
     private String grado;
-
-    @Column(nullable = false, length = 5)
+    @Column(name="seccion", length = 10, nullable = false)
     private String seccion;
-
-    @Column(length = 20)
-    private String estado;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    @Column(name="estado", nullable = false)
+    private boolean estado;
+    @Column(name="fecha_creacion_aula", nullable = false)
+    private LocalDateTime fechaCreacionAula;
+    @Column(name="actualizado_en_aula", nullable = false)
+    private LocalDateTime actualizadoEnAula;
+    @ManyToOne
+    @JoinColumn(name = "id_colegio")
+    private Colegio colegio;
 
     public Aula() {
     }
 
-    public Aula(Colegio colegio, String grado, String seccion, String estado) {
-        this.colegio = colegio;
+    public Aula(Long id, String grado, String seccion, boolean estado, LocalDateTime fechaCreacionAula, LocalDateTime actualizadoEnAula, Colegio colegio) {
+        this.id = id;
         this.grado = grado;
         this.seccion = seccion;
         this.estado = estado;
+        this.fechaCreacionAula = fechaCreacionAula;
+        this.actualizadoEnAula = actualizadoEnAula;
+        this.colegio = colegio;
     }
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.fechaCreacionAula = LocalDateTime.now();
+        this.actualizadoEnAula = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+        this.actualizadoEnAula = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -67,14 +64,6 @@ public class Aula {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Colegio getColegio() {
-        return colegio;
-    }
-
-    public void setColegio(Colegio colegio) {
-        this.colegio = colegio;
     }
 
     public String getGrado() {
@@ -93,27 +82,35 @@ public class Aula {
         this.seccion = seccion;
     }
 
-    public String getEstado() {
+    public boolean isEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(boolean estado) {
         this.estado = estado;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public LocalDateTime getFechaCreacionAula() {
+        return fechaCreacionAula;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setFechaCreacionAula(LocalDateTime fechaCreacionAula) {
+        this.fechaCreacionAula = fechaCreacionAula;
     }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
+    public LocalDateTime getActualizadoEnAula() {
+        return actualizadoEnAula;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setActualizadoEnAula(LocalDateTime actualizadoEnAula) {
+        this.actualizadoEnAula = actualizadoEnAula;
+    }
+
+    public Colegio getColegio() {
+        return colegio;
+    }
+
+    public void setColegio(Colegio colegio) {
+        this.colegio = colegio;
     }
 }

@@ -1,12 +1,19 @@
 package pe.edu.upc.educacionparatodos.dtos;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 
-public class RolDTO {
+public class RolInsertDTO {
 
     private Long id;
+
+    @NotBlank(message = "El nombre es obligatorio")
     private String nombre;
+    @NotBlank(message = "La descripción es obligatoria")
     private String descripcion;
+
     private LocalDateTime fechaCreacion;
     private LocalDateTime actualizadoEn;
 
@@ -33,22 +40,4 @@ public class RolDTO {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public LocalDateTime getActualizadoEn() {
-        return actualizadoEn;
-    }
-
-    public void setActualizadoEn(LocalDateTime actualizadoEn) {
-        this.actualizadoEn = actualizadoEn;
-    }
-
 }
-

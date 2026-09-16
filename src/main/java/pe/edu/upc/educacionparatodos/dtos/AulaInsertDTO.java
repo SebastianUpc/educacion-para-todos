@@ -1,16 +1,29 @@
 package pe.edu.upc.educacionparatodos.dtos;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
 
-public class AulaDTO {
+public class AulaInsertDTO {
 
     private Long id;
+
+    @NotNull(message = "El colegio es obligatorio")
     private Long idColegio;
+
+    @NotBlank(message = "El grado es obligatorio")
     private String grado;
+
+    @NotBlank(message = "La sección es obligatoria")
     private String seccion;
-    private boolean estado;
+    @NotNull(message = "El estado es obligatorio")
+    private Boolean estado;
+
     private LocalDateTime fechaCreacion;
     private LocalDateTime actualizadoEn;
+
+
 
     public Long getId() {
         return id;
@@ -51,22 +64,4 @@ public class AulaDTO {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-
-    public LocalDateTime getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    public LocalDateTime getActualizadoEn() {
-        return actualizadoEn;
-    }
-
-    public void setActualizadoEn(LocalDateTime actualizadoEn) {
-        this.actualizadoEn = actualizadoEn;
-    }
-
 }
-

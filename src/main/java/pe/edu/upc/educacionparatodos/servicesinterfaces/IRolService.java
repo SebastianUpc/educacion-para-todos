@@ -18,4 +18,5 @@ public interface IRolService {
     void delete(Long id);
 
     boolean existsByNombre(String nombre);
+
 }

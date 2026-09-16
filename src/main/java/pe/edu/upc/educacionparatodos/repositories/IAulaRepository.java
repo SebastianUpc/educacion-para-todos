@@ -5,11 +5,10 @@ import org.springframework.stereotype.Repository;
 import pe.edu.upc.educacionparatodos.entities.Aula;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface IAulaRepository extends JpaRepository<Aula, Long> {
 
-    List<Aula> findByColegioId(Long colegioId);
-
-    boolean existsByColegioId(Long colegioId);
+    public boolean existsByColegioId(Long colegioId);
 }
