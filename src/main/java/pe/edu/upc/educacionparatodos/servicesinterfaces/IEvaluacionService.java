@@ -16,4 +16,6 @@ public interface IEvaluacionService {
     void update(Evaluacion u);
 
     void delete(Long id);
+
+    List<Object[]> contarEvaluacionesPorEstudiante();
 }

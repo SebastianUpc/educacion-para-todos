@@ -155,6 +155,17 @@ public class UsuarioController {
                 ));
     }
 
+    // Query simple: lista los usuarios filtrados por su estado
+    @GetMapping("/estados")
+    public ResponseEntity<List<UsuarioDTO>> buscarPorEstado(@RequestParam String estado) {
+        List<UsuarioDTO> lista = uS.listarPorEstado(estado)
+                .stream()
+                .map(this::convertirADTO)
+                .toList();
+
+        return ResponseEntity.ok(lista);
+    }
+
     private UsuarioDTO convertirADTO(Usuario usuario) {
         UsuarioDTO dto = modelMapper.map(usuario, UsuarioDTO.class);
         dto.setPassword(null);

@@ -51,4 +51,9 @@ public class UsuarioServiceImplement implements IUsuarioService {
     public boolean existsByRolId(Long rolId) {
         return usuarioRepository.existsByRolId(rolId);
     }
+
+    @Override
+    public List<Usuario> listarPorEstado(String estado) {
+        return usuarioRepository.findByEstado(estado);
+    }
 }

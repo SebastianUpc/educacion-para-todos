@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pe.edu.upc.educacionparatodos.dtos.EvaluacionDTO;
+import pe.edu.upc.educacionparatodos.dtos.EvaluacionesPorEstudianteDTO;
 import pe.edu.upc.educacionparatodos.entities.Evaluacion;
 import pe.edu.upc.educacionparatodos.entities.Usuario;
 import pe.edu.upc.educacionparatodos.exceptions.BusinessRuleException;
@@ -117,6 +118,22 @@ public class EvaluacionController {
         eS.delete(evaluacion.getId());
 
         return ResponseEntity.noContent().build();
+    }
+
+    // Query con JOIN: cuantas evaluaciones tiene rendidas cada estudiante
+    @GetMapping("/cantidades")
+    public ResponseEntity<List<EvaluacionesPorEstudianteDTO>> contarPorEstudiante() {
+        List<EvaluacionesPorEstudianteDTO> lista = eS.contarEvaluacionesPorEstudiante()
+                .stream()
+                .map(item -> {
+                    EvaluacionesPorEstudianteDTO dto = new EvaluacionesPorEstudianteDTO();
+                    dto.setNombre((String) item[0]);
+                    dto.setCantidad(((Number) item[1]).longValue());
+                    return dto;
+                })
+                .toList();
+
+        return ResponseEntity.ok(lista);
     }
 
     private EvaluacionDTO convertirADTO(Evaluacion evaluacion) {
