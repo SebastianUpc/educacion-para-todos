@@ -2,6 +2,7 @@ package pe.edu.upc.educacionparatodos.controllers;
 
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/usuarios")
+@SecurityRequirement(name = "bearerAuth")
 public class UsuarioController {
 
     private static final String ESTADO_ACTIVO = "ACTIVO";
