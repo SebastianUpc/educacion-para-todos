@@ -1,5 +1,6 @@
 package pe.edu.upc.educacionparatodos.controllers;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/colegios")
+@SecurityRequirement(name = "bearerAuth")
 public class ColegioController {
 
     private final IColegioService cS;
