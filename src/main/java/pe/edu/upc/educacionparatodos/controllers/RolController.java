@@ -59,6 +59,7 @@ public class RolController {
 
         Rol rol = modelMapper.map(dto, Rol.class);
         rol.setId(null);
+        rol.setDescripcionRol(dto.getDescripcion());
 
         rS.insert(rol);
 
@@ -86,6 +87,7 @@ public class RolController {
         }
 
         rol.setNombre(dto.getNombre());
+        rol.setDescripcionRol(dto.getDescripcion());
 
         rS.update(rol);
 

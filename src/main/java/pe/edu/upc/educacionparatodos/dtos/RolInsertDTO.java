@@ -1,9 +1,6 @@
 package pe.edu.upc.educacionparatodos.dtos;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
-import java.time.LocalDateTime;
 
 public class RolInsertDTO {
 
@@ -13,9 +10,6 @@ public class RolInsertDTO {
     private String nombre;
     @NotBlank(message = "La descripción es obligatoria")
     private String descripcion;
-
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime actualizadoEn;
 
     public Long getId() {
         return id;

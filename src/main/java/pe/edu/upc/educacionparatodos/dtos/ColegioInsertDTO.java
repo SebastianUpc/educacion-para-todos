@@ -1,9 +1,6 @@
 package pe.edu.upc.educacionparatodos.dtos;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
-import java.time.LocalDateTime;
 
 public class ColegioInsertDTO {
 
@@ -17,9 +14,6 @@ public class ColegioInsertDTO {
 
     @NotBlank(message = "El distrito es obligatorio")
     private String distrito;
-
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime actualizadoEn;
 
     public Long getId() {
         return id;
