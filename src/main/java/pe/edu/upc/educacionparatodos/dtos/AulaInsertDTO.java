@@ -1,9 +1,7 @@
 package pe.edu.upc.educacionparatodos.dtos;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
-import java.time.LocalDateTime;
 
 public class AulaInsertDTO {
 
@@ -19,9 +17,6 @@ public class AulaInsertDTO {
     private String seccion;
     @NotNull(message = "El estado es obligatorio")
     private Boolean estado;
-
-    private LocalDateTime fechaCreacion;
-    private LocalDateTime actualizadoEn;
 
 
 
