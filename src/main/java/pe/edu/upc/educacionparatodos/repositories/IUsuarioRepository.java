@@ -16,4 +16,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
     boolean existsByAulaId(Long aulaId);
 
     boolean existsByRolId(Long rolId);
+
+    // Query simple: lista los usuarios filtrados por su estado (ACTIVO / INACTIVO)
+    List<Usuario> findByEstado(String estado);
 }

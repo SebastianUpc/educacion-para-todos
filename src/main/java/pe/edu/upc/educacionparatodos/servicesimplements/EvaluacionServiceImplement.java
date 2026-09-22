@@ -41,4 +41,9 @@ public class EvaluacionServiceImplement implements IEvaluacionService {
     public void delete(Long id) {
         evaluacionRepository.deleteById(id);
     }
+
+    @Override
+    public List<Object[]> contarEvaluacionesPorEstudiante() {
+        return evaluacionRepository.contarEvaluacionesPorEstudiante();
+    }
 }

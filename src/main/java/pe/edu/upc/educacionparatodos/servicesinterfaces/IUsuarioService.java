@@ -20,4 +20,6 @@ public interface IUsuarioService {
     boolean existsByEmail(String email);
 
     boolean existsByRolId(Long rolId);
+
+    List<Usuario> listarPorEstado(String estado);
 }
