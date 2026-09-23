@@ -90,6 +90,8 @@
     </dependencies>
 
     <build>
+        <!-- Azure App Service (Java SE) ejecuta el archivo app.jar de wwwroot -->
+        <finalName>app</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
