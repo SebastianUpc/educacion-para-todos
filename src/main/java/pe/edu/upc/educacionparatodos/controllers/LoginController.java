@@ -7,12 +7,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pe.edu.upc.educacionparatodos.dtos.LoginRequestDTO;
 import pe.edu.upc.educacionparatodos.dtos.LoginResponseDTO;
 import pe.edu.upc.educacionparatodos.security.JwtTokenService;
 
 @RestController
+@RequestMapping("/login")
 public class LoginController {
 
     private final AuthenticationManager authenticationManager;
@@ -23,7 +25,7 @@ public class LoginController {
         this.jwtTokenService = jwtTokenService;
     }
 
-    @PostMapping("/login")
+    @PostMapping
     public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
