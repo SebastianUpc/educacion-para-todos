@@ -17,5 +17,7 @@ public interface IEvaluacionService {
 
     void delete(Long id);
 
+    List<Evaluacion> listarPorEstado(String estado);
+
     List<Object[]> contarEvaluacionesPorEstudiante();
 }
