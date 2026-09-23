@@ -16,4 +16,6 @@ public interface IColegioService {
     void update(Colegio u);
 
     void delete(Long id);
+
+    List<Object[]> contarColegiosPorDistrito();
 }

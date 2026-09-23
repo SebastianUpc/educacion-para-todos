@@ -16,4 +16,6 @@ public interface IAulaService {
     void update(Aula u);
 
     void delete(Long id);
+
+    List<Object[]> contarAulasPorColegio();
 }

@@ -42,4 +42,9 @@ public class AulaServiceImplement implements IAulaService {
     public void delete(Long id) {
         aR.deleteById(id);
     }
+
+    @Override
+    public List<Object[]> contarAulasPorColegio() {
+        return aR.contarAulasPorColegio();
+    }
 }

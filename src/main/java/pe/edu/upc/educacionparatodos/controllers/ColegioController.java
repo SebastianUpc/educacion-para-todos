@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pe.edu.upc.educacionparatodos.dtos.ColegioDTO;
 import pe.edu.upc.educacionparatodos.dtos.ColegioInsertDTO;
+import pe.edu.upc.educacionparatodos.dtos.ColegiosPorDistritoDTO;
 import pe.edu.upc.educacionparatodos.entities.Colegio;
 import pe.edu.upc.educacionparatodos.exceptions.ResourceNotFoundException;
 import pe.edu.upc.educacionparatodos.servicesinterfaces.IColegioService;
@@ -69,6 +70,21 @@ public class ColegioController {
         existente.setDistrito(dto.getDistrito());
         cS.update(existente);
         return ResponseEntity.ok(modelMapper.map(existente, ColegioDTO.class));
+    }
+
+    @GetMapping("/cantidades")
+    public ResponseEntity<List<ColegiosPorDistritoDTO>> contarPorDistrito() {
+        List<ColegiosPorDistritoDTO> lista = cS.contarColegiosPorDistrito()
+                .stream()
+                .map(item -> {
+                    ColegiosPorDistritoDTO dto = new ColegiosPorDistritoDTO();
+                    dto.setDistrito((String) item[0]);
+                    dto.setCantidad(((Number) item[1]).longValue());
+                    return dto;
+                })
+                .toList();
+
+        return ResponseEntity.ok(lista);
     }
 
 }

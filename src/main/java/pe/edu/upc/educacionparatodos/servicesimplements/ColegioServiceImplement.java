@@ -41,4 +41,9 @@ public class ColegioServiceImplement implements IColegioService {
     public void delete(Long id) {
         cR.deleteById(id);
     }
+
+    @Override
+    public List<Object[]> contarColegiosPorDistrito() {
+        return cR.contarColegiosPorDistrito();
+    }
 }

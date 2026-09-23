@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pe.edu.upc.educacionparatodos.dtos.AulaDTO;
 import pe.edu.upc.educacionparatodos.dtos.AulaInsertDTO;
+import pe.edu.upc.educacionparatodos.dtos.AulasPorColegioDTO;
 import pe.edu.upc.educacionparatodos.entities.Aula;
 import pe.edu.upc.educacionparatodos.entities.Colegio;
 import pe.edu.upc.educacionparatodos.exceptions.ResourceNotFoundException;
@@ -82,5 +83,20 @@ public class AulaController {
         Aula aula = aS.listId(id).orElseThrow(() -> new ResourceNotFoundException("No existe un aula con el id: " + id));
         aS.delete(aula.getId());
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/cantidades")
+    public ResponseEntity<List<AulasPorColegioDTO>> contarPorColegio() {
+        List<AulasPorColegioDTO> lista = aS.contarAulasPorColegio()
+                .stream()
+                .map(item -> {
+                    AulasPorColegioDTO dto = new AulasPorColegioDTO();
+                    dto.setNombreColegio((String) item[0]);
+                    dto.setCantidad(((Number) item[1]).longValue());
+                    return dto;
+                })
+                .toList();
+
+        return ResponseEntity.ok(lista);
     }
 }
