@@ -12,6 +12,9 @@ public interface IEvaluacionRepository extends JpaRepository<Evaluacion, Long> {
 
     List<Evaluacion> findByEstudianteIdOrderByFechaInicioDesc(Long estudianteId);
 
+    // Query simple: lista las evaluaciones filtradas por su estado (EN_CURSO / FINALIZADA)
+    List<Evaluacion> findByEstado(String estado);
+
     // Query con JOIN: cuenta cuantas evaluaciones tiene rendidas cada estudiante
     @Query(value = "select u.nombre, count(e.id)\n" +
             " from usuarios u left join evaluaciones e\n" +

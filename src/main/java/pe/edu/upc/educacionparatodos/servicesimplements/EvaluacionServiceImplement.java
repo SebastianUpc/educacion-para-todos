@@ -43,6 +43,11 @@ public class EvaluacionServiceImplement implements IEvaluacionService {
     }
 
     @Override
+    public List<Evaluacion> listarPorEstado(String estado) {
+        return evaluacionRepository.findByEstado(estado);
+    }
+
+    @Override
     public List<Object[]> contarEvaluacionesPorEstudiante() {
         return evaluacionRepository.contarEvaluacionesPorEstudiante();
     }

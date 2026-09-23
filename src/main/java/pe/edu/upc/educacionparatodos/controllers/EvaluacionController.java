@@ -122,6 +122,17 @@ public class EvaluacionController {
         return ResponseEntity.noContent().build();
     }
 
+    // Query simple: lista las evaluaciones filtradas por su estado
+    @GetMapping("/estados")
+    public ResponseEntity<List<EvaluacionDTO>> buscarPorEstado(@RequestParam String estado) {
+        List<EvaluacionDTO> lista = eS.listarPorEstado(estado)
+                .stream()
+                .map(this::convertirADTO)
+                .toList();
+
+        return ResponseEntity.ok(lista);
+    }
+
     // Query con JOIN: cuantas evaluaciones tiene rendidas cada estudiante
     @GetMapping("/cantidades")
     public ResponseEntity<List<EvaluacionesPorEstudianteDTO>> contarPorEstudiante() {
