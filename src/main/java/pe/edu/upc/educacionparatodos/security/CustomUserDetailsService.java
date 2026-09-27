@@ -10,6 +10,7 @@ import pe.edu.upc.educacionparatodos.entities.Usuario;
 import pe.edu.upc.educacionparatodos.repositories.IUsuarioRepository;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -27,12 +28,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         String roleName = usuario.getRol() != null && usuario.getRol().getNombre() != null
                 ? usuario.getRol().getNombre().trim()
-                : "USER";
+                : "ROLE_USER";
+
+        String normalizedRole = roleName.toUpperCase(Locale.ROOT);
 
         return User.builder()
                 .username(usuario.getEmail())
                 .password(usuario.getPasswordHash())
-                .authorities(List.of(new SimpleGrantedAuthority("ROLE_" + roleName.toUpperCase())))
+                .authorities(List.of(new SimpleGrantedAuthority(normalizedRole)))
                 .accountLocked(false)
                 .accountExpired(false)
                 .credentialsExpired(false)

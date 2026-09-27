@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -44,6 +45,7 @@ public class UsuarioController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UsuarioDTO>> listar() {
         List<UsuarioDTO> lista = uS.list()
                 .stream()
@@ -55,6 +57,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
     public ResponseEntity<UsuarioDTO> buscarId(@PathVariable Long id) {
         Usuario usuario = uS.listId(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -65,6 +68,7 @@ public class UsuarioController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<UsuarioDTO> registrar(@Valid @RequestBody UsuarioDTO dto) {
         if (uS.existsByEmail(dto.getEmail())) {
             throw new BusinessRuleException(
@@ -92,6 +96,7 @@ public class UsuarioController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<UsuarioDTO> actualizar(@Valid @RequestBody UsuarioDTO dto) {
         Usuario usuario = uS.listId(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -118,6 +123,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         Usuario usuario = uS.listId(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -159,6 +165,7 @@ public class UsuarioController {
 
     // Query simple: lista los usuarios filtrados por su estado
     @GetMapping("/estados")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<List<UsuarioDTO>> buscarPorEstado(@RequestParam String estado) {
         List<UsuarioDTO> lista = uS.listarPorEstado(estado)
                 .stream()

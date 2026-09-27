@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pe.edu.upc.educacionparatodos.dtos.ColegioDTO;
@@ -30,6 +31,7 @@ public class ColegioController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
     public ResponseEntity<List<ColegioDTO>> listar() {
         List<ColegioDTO> lista = cS.list()
                 .stream()
@@ -39,6 +41,7 @@ public class ColegioController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
     public ResponseEntity<ColegioDTO> buscarId(@PathVariable Long id) {
         Colegio colegio = cS.listId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + id));
@@ -46,6 +49,7 @@ public class ColegioController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         Colegio colegio = cS.listId(id).orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + id));
         cS.delete(colegio.getId());
@@ -53,6 +57,7 @@ public class ColegioController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ColegioDTO> registrar(@Valid @RequestBody ColegioInsertDTO dto) {
         Colegio colegio = modelMapper.map(dto, Colegio.class);
         colegio.setId(null);
@@ -63,6 +68,7 @@ public class ColegioController {
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ColegioDTO> actualizar(@Valid @RequestBody ColegioDTO dto) {
         Colegio existente = cS.listId(dto.getId()).orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + dto.getId()));
         existente.setNombre(dto.getNombre());
@@ -73,6 +79,7 @@ public class ColegioController {
     }
 
     @GetMapping("/cantidades")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<List<ColegiosPorDistritoDTO>> contarPorDistrito() {
         List<ColegiosPorDistritoDTO> lista = cS.contarColegiosPorDistrito()
                 .stream()

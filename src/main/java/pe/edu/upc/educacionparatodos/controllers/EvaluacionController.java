@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pe.edu.upc.educacionparatodos.dtos.EvaluacionDTO;
@@ -38,6 +39,7 @@ public class EvaluacionController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
     public ResponseEntity<List<EvaluacionDTO>> listar() {
         List<EvaluacionDTO> lista = eS.list()
                 .stream()
@@ -48,6 +50,7 @@ public class EvaluacionController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
     public ResponseEntity<EvaluacionDTO> buscarId(@PathVariable Long id) {
         Evaluacion evaluacion = eS.listId(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -58,6 +61,7 @@ public class EvaluacionController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<EvaluacionDTO> registrar(@Valid @RequestBody EvaluacionDTO dto) {
         Usuario estudiante = uS.listId(dto.getIdEstudiante())
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -81,6 +85,7 @@ public class EvaluacionController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<EvaluacionDTO> actualizar(@Valid @RequestBody EvaluacionDTO dto) {
         Evaluacion evaluacion = eS.listId(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -111,6 +116,7 @@ public class EvaluacionController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         Evaluacion evaluacion = eS.listId(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -124,6 +130,7 @@ public class EvaluacionController {
 
     // Query simple: lista las evaluaciones filtradas por su estado
     @GetMapping("/estados")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
     public ResponseEntity<List<EvaluacionDTO>> buscarPorEstado(@RequestParam String estado) {
         List<EvaluacionDTO> lista = eS.listarPorEstado(estado)
                 .stream()
@@ -135,6 +142,7 @@ public class EvaluacionController {
 
     // Query con JOIN: cuantas evaluaciones tiene rendidas cada estudiante
     @GetMapping("/cantidades")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<List<EvaluacionesPorEstudianteDTO>> contarPorEstudiante() {
         List<EvaluacionesPorEstudianteDTO> lista = eS.contarEvaluacionesPorEstudiante()
                 .stream()

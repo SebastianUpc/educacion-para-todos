@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pe.edu.upc.educacionparatodos.dtos.RolDTO;
@@ -32,6 +33,7 @@ public class RolController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<RolDTO>> listar() {
         List<RolDTO> lista = rS.list()
                 .stream()
@@ -42,6 +44,7 @@ public class RolController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<RolDTO> buscarId(@PathVariable Long id) {
         Rol rol = rS.listId(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -52,6 +55,7 @@ public class RolController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<RolDTO> registrar(@Valid @RequestBody pe.edu.upc.educacionparatodos.dtos.RolInsertDTO dto) {
         if (rS.existsByNombre(dto.getNombre())) {
             throw new BusinessRuleException(
@@ -75,6 +79,7 @@ public class RolController {
     }
 
     @PutMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<RolDTO> actualizar(@Valid @RequestBody RolDTO dto) {
         Rol rol = rS.listId(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -97,6 +102,7 @@ public class RolController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         Rol rol = rS.listId(id)
                 .orElseThrow(() -> new ResourceNotFoundException(

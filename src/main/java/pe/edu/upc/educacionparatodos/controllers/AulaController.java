@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pe.edu.upc.educacionparatodos.dtos.AulaDTO;
@@ -34,6 +35,7 @@ public class AulaController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
     public ResponseEntity<List<AulaDTO>> listar() {
         List<AulaDTO> lista = aS.list()
                 .stream()
@@ -43,6 +45,7 @@ public class AulaController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
     public ResponseEntity<AulaDTO> buscarId(@PathVariable Long id) {
         Aula aula = aS.listId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No existe un aula con el id: " + id));
@@ -50,6 +53,7 @@ public class AulaController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<AulaDTO> registrar(@Valid @RequestBody AulaInsertDTO dto) {
         Colegio colegio = cS.listId(dto.getIdColegio())
                 .orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + dto.getIdColegio()));
@@ -65,6 +69,7 @@ public class AulaController {
     }
 
     @PutMapping
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<AulaDTO> actualizar(@Valid @RequestBody AulaDTO dto) {
         Aula existente = aS.listId(dto.getId()).orElseThrow(() -> new ResourceNotFoundException("No existe un aula con el id: " + dto.getId()));
         Colegio colegio = cS.listId(dto.getIdColegio()).orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + dto.getIdColegio()));
@@ -79,6 +84,7 @@ public class AulaController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         Aula aula = aS.listId(id).orElseThrow(() -> new ResourceNotFoundException("No existe un aula con el id: " + id));
         aS.delete(aula.getId());
@@ -86,6 +92,7 @@ public class AulaController {
     }
 
     @GetMapping("/cantidades")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<List<AulasPorColegioDTO>> contarPorColegio() {
         List<AulasPorColegioDTO> lista = aS.contarAulasPorColegio()
                 .stream()
