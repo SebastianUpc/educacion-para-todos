@@ -140,6 +140,23 @@ public class EvaluacionController {
         return ResponseEntity.ok(lista);
     }
 
+    // Query simple: historial de evaluaciones de un estudiante, de la mas reciente a la mas antigua
+    @GetMapping("/estudiante/{idEstudiante}")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
+    public ResponseEntity<List<EvaluacionDTO>> listarPorEstudiante(@PathVariable Long idEstudiante) {
+        uS.listId(idEstudiante)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "No existe un estudiante con el id: " + idEstudiante
+                ));
+
+        List<EvaluacionDTO> lista = eS.listarPorEstudiante(idEstudiante)
+                .stream()
+                .map(this::convertirADTO)
+                .toList();
+
+        return ResponseEntity.ok(lista);
+    }
+
     // Query con JOIN: cuantas evaluaciones tiene rendidas cada estudiante
     @GetMapping("/cantidades")
     @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
