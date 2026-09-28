@@ -19,5 +19,7 @@ public interface IEvaluacionService {
 
     List<Evaluacion> listarPorEstado(String estado);
 
+    List<Evaluacion> listarPorEstudiante(Long idEstudiante);
+
     List<Object[]> contarEvaluacionesPorEstudiante();
 }

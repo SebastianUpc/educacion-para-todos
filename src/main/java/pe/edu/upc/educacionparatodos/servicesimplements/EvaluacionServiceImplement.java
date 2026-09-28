@@ -48,6 +48,11 @@ public class EvaluacionServiceImplement implements IEvaluacionService {
     }
 
     @Override
+    public List<Evaluacion> listarPorEstudiante(Long idEstudiante) {
+        return evaluacionRepository.findByEstudianteIdOrderByFechaInicioDesc(idEstudiante);
+    }
+
+    @Override
     public List<Object[]> contarEvaluacionesPorEstudiante() {
         return evaluacionRepository.contarEvaluacionesPorEstudiante();
     }
