@@ -3,17 +3,17 @@ package pe.edu.upc.educacionparatodos.servicesinterfaces;
 import pe.edu.upc.educacionparatodos.entities.Ejercicio;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface IEjercicioService {
 
-    void insert(Ejercicio u);
-
     List<Ejercicio> list();
 
-    Optional<Ejercicio> listId(Long id);
+    Ejercicio findById(Long id);
 
-    void update(Ejercicio u);
+    // El ejercicio debe traer un Tema con al menos su id; el servicio valida que exista
+    Ejercicio insert(Ejercicio e);
+
+    Ejercicio update(Long id, Ejercicio e);
 
     void delete(Long id);
 }

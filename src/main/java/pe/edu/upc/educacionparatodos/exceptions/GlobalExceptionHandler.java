@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import pe.edu.upc.educacionparatodos.dtos.ErrorResponse;
 
+import java.util.stream.Collectors;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -52,8 +54,11 @@ public class GlobalExceptionHandler {
                 .getFieldErrors()
                 .stream()
                 .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .findFirst()
-                .orElse("Error de validación");
+                .collect(Collectors.joining("; "));
+
+        if (message.isBlank()) {
+            message = "Error de validación";
+        }
 
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
