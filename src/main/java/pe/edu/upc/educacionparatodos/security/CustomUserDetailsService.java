@@ -30,7 +30,10 @@ public class CustomUserDetailsService implements UserDetailsService {
                 ? usuario.getRol().getNombre().trim()
                 : "ROLE_USER";
 
-        String normalizedRole = roleName.toUpperCase(Locale.ROOT);
+        // hasRole('ADMIN') busca la autoridad ROLE_ADMIN, asi que el prefijo es obligatorio.
+        // Se comprueba antes para no generar ROLE_ROLE_ADMIN si el rol ya viene prefijado.
+        String upperRole = roleName.toUpperCase(Locale.ROOT);
+        String normalizedRole = upperRole.startsWith("ROLE_") ? upperRole : "ROLE_" + upperRole;
 
         return User.builder()
                 .username(usuario.getEmail())
