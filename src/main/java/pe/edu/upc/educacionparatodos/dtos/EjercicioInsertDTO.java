@@ -1,26 +1,28 @@
 package pe.edu.upc.educacionparatodos.dtos;
 
-public class EjercicioDTO {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
-    private Long id;
+public class EjercicioInsertDTO {
+
+    @NotNull(message = "El tema es obligatorio")
     private Long idTema;
-    private String nombreTema;
+
+    @NotBlank(message = "El enunciado es obligatorio")
     private String enunciado;
+
     private String contenidoJson;
+
+    @NotBlank(message = "La respuesta correcta es obligatoria")
+    private String respuestaCorrecta;
+
     private Integer nivelDificultad;
+
     private Boolean generadoPorIa;
+
+    @Size(max = 20, message = "El estado no puede superar los 20 caracteres")
     private String estado;
-
-    public EjercicioDTO() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Long getIdTema() {
         return idTema;
@@ -28,14 +30,6 @@ public class EjercicioDTO {
 
     public void setIdTema(Long idTema) {
         this.idTema = idTema;
-    }
-
-    public String getNombreTema() {
-        return nombreTema;
-    }
-
-    public void setNombreTema(String nombreTema) {
-        this.nombreTema = nombreTema;
     }
 
     public String getEnunciado() {
@@ -52,6 +46,14 @@ public class EjercicioDTO {
 
     public void setContenidoJson(String contenidoJson) {
         this.contenidoJson = contenidoJson;
+    }
+
+    public String getRespuestaCorrecta() {
+        return respuestaCorrecta;
+    }
+
+    public void setRespuestaCorrecta(String respuestaCorrecta) {
+        this.respuestaCorrecta = respuestaCorrecta;
     }
 
     public Integer getNivelDificultad() {
