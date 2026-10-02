@@ -22,4 +22,6 @@ public interface IUsuarioService {
     boolean existsByRolId(Long rolId);
 
     List<Usuario> listarPorEstado(String estado);
+
+    List<Object[]> contarUsuariosPorRol();
 }

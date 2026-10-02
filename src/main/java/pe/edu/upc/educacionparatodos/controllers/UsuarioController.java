@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pe.edu.upc.educacionparatodos.dtos.UsuarioDTO;
+import pe.edu.upc.educacionparatodos.dtos.UsuariosPorRolDTO;
 import pe.edu.upc.educacionparatodos.entities.Aula;
 import pe.edu.upc.educacionparatodos.entities.Rol;
 import pe.edu.upc.educacionparatodos.entities.Usuario;
@@ -170,6 +171,23 @@ public class UsuarioController {
         List<UsuarioDTO> lista = uS.listarPorEstado(estado)
                 .stream()
                 .map(this::convertirADTO)
+                .toList();
+
+        return ResponseEntity.ok(lista);
+    }
+
+    // Query con JOIN: cuantos usuarios hay registrados en cada rol
+    @GetMapping("/cantidades")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
+    public ResponseEntity<List<UsuariosPorRolDTO>> contarPorRol() {
+        List<UsuariosPorRolDTO> lista = uS.contarUsuariosPorRol()
+                .stream()
+                .map(item -> {
+                    UsuariosPorRolDTO dto = new UsuariosPorRolDTO();
+                    dto.setNombreRol((String) item[0]);
+                    dto.setCantidad(((Number) item[1]).longValue());
+                    return dto;
+                })
                 .toList();
 
         return ResponseEntity.ok(lista);

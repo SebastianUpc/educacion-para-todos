@@ -56,4 +56,9 @@ public class UsuarioServiceImplement implements IUsuarioService {
     public List<Usuario> listarPorEstado(String estado) {
         return usuarioRepository.findByEstado(estado);
     }
+
+    @Override
+    public List<Object[]> contarUsuariosPorRol() {
+        return usuarioRepository.contarUsuariosPorRol();
+    }
 }
