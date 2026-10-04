@@ -53,6 +53,11 @@ public class UsuarioServiceImplement implements IUsuarioService {
     }
 
     @Override
+    public boolean existsByAulaId(Long aulaId) {
+        return usuarioRepository.existsByAulaId(aulaId);
+    }
+
+    @Override
     public List<Usuario> listarPorEstado(String estado) {
         return usuarioRepository.findByEstado(estado);
     }
