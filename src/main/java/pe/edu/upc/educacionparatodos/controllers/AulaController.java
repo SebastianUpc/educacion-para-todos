@@ -12,9 +12,11 @@ import pe.edu.upc.educacionparatodos.dtos.AulaInsertDTO;
 import pe.edu.upc.educacionparatodos.dtos.AulasPorColegioDTO;
 import pe.edu.upc.educacionparatodos.entities.Aula;
 import pe.edu.upc.educacionparatodos.entities.Colegio;
+import pe.edu.upc.educacionparatodos.exceptions.BusinessRuleException;
 import pe.edu.upc.educacionparatodos.exceptions.ResourceNotFoundException;
 import pe.edu.upc.educacionparatodos.servicesinterfaces.IAulaService;
 import pe.edu.upc.educacionparatodos.servicesinterfaces.IColegioService;
+import pe.edu.upc.educacionparatodos.servicesinterfaces.IUsuarioService;
 
 import java.net.URI;
 import java.util.List;
@@ -26,11 +28,13 @@ public class AulaController {
 
     private final IAulaService aS;
     private final IColegioService cS;
+    private final IUsuarioService uS;
     private final ModelMapper modelMapper;
 
-    public AulaController(IAulaService aS, IColegioService cS, ModelMapper modelMapper) {
+    public AulaController(IAulaService aS, IColegioService cS, IUsuarioService uS, ModelMapper modelMapper) {
         this.aS = aS;
         this.cS = cS;
+        this.uS = uS;
         this.modelMapper = modelMapper;
     }
 
@@ -87,6 +91,13 @@ public class AulaController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         Aula aula = aS.listId(id).orElseThrow(() -> new ResourceNotFoundException("No existe un aula con el id: " + id));
+
+        if (uS.existsByAulaId(aula.getId())) {
+            throw new BusinessRuleException(
+                    "No se puede eliminar el aula porque tiene usuarios asignados"
+            );
+        }
+
         aS.delete(aula.getId());
         return ResponseEntity.noContent().build();
     }

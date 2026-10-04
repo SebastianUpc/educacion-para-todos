@@ -47,4 +47,9 @@ public class AulaServiceImplement implements IAulaService {
     public List<Object[]> contarAulasPorColegio() {
         return aR.contarAulasPorColegio();
     }
+
+    @Override
+    public boolean existsByColegioId(Long colegioId) {
+        return aR.existsByColegioId(colegioId);
+    }
 }

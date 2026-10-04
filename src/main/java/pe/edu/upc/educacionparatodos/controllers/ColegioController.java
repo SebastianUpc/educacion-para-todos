@@ -11,7 +11,9 @@ import pe.edu.upc.educacionparatodos.dtos.ColegioDTO;
 import pe.edu.upc.educacionparatodos.dtos.ColegioInsertDTO;
 import pe.edu.upc.educacionparatodos.dtos.ColegiosPorDistritoDTO;
 import pe.edu.upc.educacionparatodos.entities.Colegio;
+import pe.edu.upc.educacionparatodos.exceptions.BusinessRuleException;
 import pe.edu.upc.educacionparatodos.exceptions.ResourceNotFoundException;
+import pe.edu.upc.educacionparatodos.servicesinterfaces.IAulaService;
 import pe.edu.upc.educacionparatodos.servicesinterfaces.IColegioService;
 
 import java.net.URI;
@@ -23,10 +25,12 @@ import java.util.List;
 public class ColegioController {
 
     private final IColegioService cS;
+    private final IAulaService aS;
     private final ModelMapper modelMapper;
 
-    public ColegioController(IColegioService cS, ModelMapper modelMapper) {
+    public ColegioController(IColegioService cS, IAulaService aS, ModelMapper modelMapper) {
         this.cS = cS;
+        this.aS = aS;
         this.modelMapper = modelMapper;
     }
 
@@ -52,6 +56,13 @@ public class ColegioController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         Colegio colegio = cS.listId(id).orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + id));
+
+        if (aS.existsByColegioId(colegio.getId())) {
+            throw new BusinessRuleException(
+                    "No se puede eliminar el colegio porque tiene aulas registradas"
+            );
+        }
+
         cS.delete(colegio.getId());
         return ResponseEntity.noContent().build();
     }

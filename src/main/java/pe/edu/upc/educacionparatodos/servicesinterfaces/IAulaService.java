@@ -18,4 +18,6 @@ public interface IAulaService {
     void delete(Long id);
 
     List<Object[]> contarAulasPorColegio();
+
+    boolean existsByColegioId(Long colegioId);
 }
