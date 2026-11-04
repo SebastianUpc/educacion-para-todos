@@ -1,0 +1,32 @@
+<div class="container">
+  <h2>Registro de Evaluacion</h2>
+
+  <form [formGroup]="formEvaluacion" (ngSubmit)="insertarEvaluacion()">
+      <mat-form-field appearance="outline">
+        <mat-label>Estudiante</mat-label>
+        <mat-select formControlName="idEstudiante">
+          @for (op of listaUsuario; track op.id) {
+            <mat-option [value]="op.id">
+              {{ op.id }} - {{ op.nombre }}
+            </mat-option>
+          }
+        </mat-select>
+        <mat-error>Estudiante es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="estado">
+          @for (op of opcionesEstado; track op.value) {
+            <mat-option [value]="op.value">{{ op.viewValue }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+    <button mat-flat-button type="submit">Registrar</button>
+  </form>
+
+  @if (mensaje) {
+    <p>{{ mensaje }}</p>
+  }
+</div>

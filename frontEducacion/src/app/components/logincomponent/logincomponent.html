@@ -1,0 +1,25 @@
+<div class="pantalla">
+  <mat-card class="tarjeta">
+    <h2>Iniciar sesion</h2>
+
+    <form [formGroup]="formLogin" (ngSubmit)="ingresar()">
+      <mat-form-field appearance="outline">
+        <mat-label>Correo</mat-label>
+        <input matInput type="email" formControlName="username" placeholder="admin@educacion.edu.pe" />
+        <mat-error>El correo es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Contrasena</mat-label>
+        <input matInput type="password" formControlName="password" />
+        <mat-error>La contrasena es obligatoria</mat-error>
+      </mat-form-field>
+
+      <button mat-flat-button type="submit">Ingresar</button>
+    </form>
+
+    @if (mensaje) {
+      <p class="error">{{ mensaje }}</p>
+    }
+  </mat-card>
+</div>

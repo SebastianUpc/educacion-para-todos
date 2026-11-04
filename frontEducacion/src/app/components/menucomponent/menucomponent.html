@@ -1,0 +1,82 @@
+<mat-toolbar>
+  <button mat-icon-button routerLink="/" aria-label="Inicio">
+    <mat-icon>home</mat-icon>
+  </button>
+
+  <span class="titulo">Educacion para Todos</span>
+
+  <div class="menus">
+      <button mat-button [matMenuTriggerFor]="menuColegio">Colegios</button>
+      <mat-menu #menuColegio="matMenu">
+        <button mat-menu-item routerLink="/colegio/listar">Listar</button>
+        <button mat-menu-item routerLink="/colegio/insertar">Insertar</button>
+        <button mat-menu-item routerLink="/colegio/cantidades">Colegios por distrito</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="menuAula">Aulas</button>
+      <mat-menu #menuAula="matMenu">
+        <button mat-menu-item routerLink="/aula/listar">Listar</button>
+        <button mat-menu-item routerLink="/aula/insertar">Insertar</button>
+        <button mat-menu-item routerLink="/aula/cantidades">Aulas por colegio</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="menuRol">Roles</button>
+      <mat-menu #menuRol="matMenu">
+        <button mat-menu-item routerLink="/rol/listar">Listar</button>
+        <button mat-menu-item routerLink="/rol/insertar">Insertar</button>
+      </mat-menu>
+
+      <!-- PENDIENTE (Recoba): descomentar al agregar Temas
+      <button mat-button [matMenuTriggerFor]="menuTema">Temas</button>
+      <mat-menu #menuTema="matMenu">
+        <button mat-menu-item routerLink="/tema/listar">Listar</button>
+        <button mat-menu-item routerLink="/tema/insertar">Insertar</button>
+      </mat-menu>
+      -->
+
+      <!-- PENDIENTE (Recoba): descomentar al agregar Ejercicios
+      <button mat-button [matMenuTriggerFor]="menuEjercicio">Ejercicios</button>
+      <mat-menu #menuEjercicio="matMenu">
+        <button mat-menu-item routerLink="/ejercicio/listar">Listar</button>
+        <button mat-menu-item routerLink="/ejercicio/insertar">Insertar</button>
+      </mat-menu>
+      -->
+
+      <button mat-button [matMenuTriggerFor]="menuUsuario">Usuarios</button>
+      <mat-menu #menuUsuario="matMenu">
+        <button mat-menu-item routerLink="/usuario/listar">Listar</button>
+        <button mat-menu-item routerLink="/usuario/insertar">Insertar</button>
+        <button mat-menu-item routerLink="/usuario/buscar">Buscar</button>
+        <button mat-menu-item routerLink="/usuario/cantidades">Usuarios por rol</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="menuEvaluacion">Evaluaciones</button>
+      <mat-menu #menuEvaluacion="matMenu">
+        <button mat-menu-item routerLink="/evaluacion/listar">Listar</button>
+        <button mat-menu-item routerLink="/evaluacion/insertar">Insertar</button>
+        <button mat-menu-item routerLink="/evaluacion/buscar">Buscar</button>
+        <button mat-menu-item routerLink="/evaluacion/cantidades">Evaluaciones por estudiante</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="menuProgreso">Progresos</button>
+      <mat-menu #menuProgreso="matMenu">
+        <button mat-menu-item routerLink="/progreso/listar">Listar</button>
+      </mat-menu>
+
+      <button mat-button [matMenuTriggerFor]="menuDetalleevaluacion">Detalles de evaluacion</button>
+      <mat-menu #menuDetalleevaluacion="matMenu">
+        <button mat-menu-item routerLink="/detalle-evaluacion/listar">Listar</button>
+      </mat-menu>
+  </div>
+
+  <span class="spacer"></span>
+
+  @if (logueado) {
+    <span class="usuario">{{ usuario }}</span>
+    <button mat-icon-button (click)="salir()" aria-label="Salir">
+      <mat-icon>logout</mat-icon>
+    </button>
+  } @else {
+    <button mat-button routerLink="/login">Iniciar sesion</button>
+  }
+</mat-toolbar>

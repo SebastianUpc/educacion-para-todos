@@ -1,0 +1,72 @@
+<div class="container">
+  <h2>Formulario de Actualizacion de Usuarios</h2>
+
+  @if (formUsuario) {
+    <form [formGroup]="formUsuario" (ngSubmit)="actualizarUsuario()">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput type="text" formControlName="nombre" placeholder="Camila" />
+        <mat-error>Nombre es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Apellido</mat-label>
+        <input matInput type="text" formControlName="apellido" placeholder="Rojas" />
+        <mat-error>Apellido es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Correo</mat-label>
+        <input matInput type="email" formControlName="email" placeholder="camila.rojas@colegio.edu.pe" />
+        <mat-error>Correo es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Contrasena</mat-label>
+        <input matInput type="password" formControlName="password" placeholder="" />
+        <mat-hint>El backend exige este campo aunque la contrasena no se actualiza</mat-hint>
+        <mat-error>Contrasena es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="idRol">
+          @for (op of listaRol; track op.id) {
+            <mat-option [value]="op.id">
+              {{ op.id }} - {{ op.nombre }}
+            </mat-option>
+          }
+        </mat-select>
+        <mat-error>Rol es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Aula (opcional)</mat-label>
+        <mat-select formControlName="idAula">
+          @for (op of listaAula; track op.id) {
+            <mat-option [value]="op.id">
+              {{ op.id }} - {{ op.grado }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Apoderado (opcional)</mat-label>
+        <mat-select formControlName="idApoderado">
+          @for (op of listaUsuario; track op.id) {
+            <mat-option [value]="op.id">
+              {{ op.id }} - {{ op.nombre }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button type="submit">Guardar</button>
+    </form>
+  }
+
+  @if (mensaje) {
+    <p>{{ mensaje }}</p>
+  }
+</div>

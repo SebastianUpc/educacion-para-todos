@@ -14,6 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableMethodSecurity
@@ -41,6 +46,35 @@ public class SecurityConfig {
             org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration configuration)
             throws Exception {
         return configuration.getAuthenticationManager();
+    }
+
+    // Configuracion CORS: permite que el frontend de Angular consuma esta API.
+    // Sin este bean, .cors(Customizer.withDefaults()) no tiene nada que aplicar
+    // y el navegador bloquea toda peticion que venga de http://localhost:4200.
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        // Origen permitido: la aplicacion Angular en desarrollo
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+
+        // Metodos HTTP permitidos
+        configuration.setAllowedMethods(
+                List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+
+        // Cabeceras que puede enviar el frontend (incluye Authorization)
+        configuration.setAllowedHeaders(List.of("*"));
+
+        // Cabeceras que Angular puede leer de la respuesta
+        configuration.setExposedHeaders(List.of("Authorization", "Location"));
+
+        // No se usan cookies: el token viaja en la cabecera Authorization
+        configuration.setAllowCredentials(false);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 
     @Bean

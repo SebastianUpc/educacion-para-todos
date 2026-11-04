@@ -1,0 +1,25 @@
+.portada {
+  text-align: center;
+  margin: 6% auto;
+  max-width: 640px;
+  padding: 30px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  color: #1a4f8a;
+  font-size: 34px;
+  margin-bottom: 8px;
+}
+
+p {
+  color: #444444;
+  font-size: 16px;
+  margin: 6px 0;
+}
+
+.nota {
+  margin-top: 24px;
+  font-size: 14px;
+  color: #777777;
+}
