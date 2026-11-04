@@ -1,0 +1,37 @@
+<div class="container">
+  <h2>Registro de Aula</h2>
+
+  <form [formGroup]="formAula" (ngSubmit)="insertarAula()">
+      <mat-form-field appearance="outline">
+        <mat-label>Colegio</mat-label>
+        <mat-select formControlName="idColegio">
+          @for (op of listaColegio; track op.id) {
+            <mat-option [value]="op.id">
+              {{ op.id }} - {{ op.nombre }}
+            </mat-option>
+          }
+        </mat-select>
+        <mat-error>Colegio es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Grado</mat-label>
+        <input matInput type="text" formControlName="grado" placeholder="5to" />
+        <mat-error>Grado es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Seccion</mat-label>
+        <input matInput type="text" formControlName="seccion" placeholder="A" />
+        <mat-error>Seccion es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="estado">Aula activa</mat-checkbox>
+
+    <button mat-flat-button type="submit">Registrar</button>
+  </form>
+
+  @if (mensaje) {
+    <p>{{ mensaje }}</p>
+  }
+</div>

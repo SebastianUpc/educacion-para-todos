@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Registro de Colegio</h2>
+
+  <form [formGroup]="formColegio" (ngSubmit)="insertarColegio()">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre del colegio</mat-label>
+        <input matInput type="text" formControlName="nombre" placeholder="I.E. Jose Carlos Mariategui" />
+        <mat-error>Nombre del colegio es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Direccion</mat-label>
+        <input matInput type="text" formControlName="direccion" placeholder="Av. Los Heroes 123" />
+        <mat-error>Direccion es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Distrito</mat-label>
+        <input matInput type="text" formControlName="distrito" placeholder="San Juan de Miraflores" />
+        <mat-error>Distrito es obligatorio</mat-error>
+      </mat-form-field>
+
+    <button mat-flat-button type="submit">Registrar</button>
+  </form>
+
+  @if (mensaje) {
+    <p>{{ mensaje }}</p>
+  }
+</div>

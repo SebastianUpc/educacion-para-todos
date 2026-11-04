@@ -1,0 +1,24 @@
+<div class="container">
+  <h2>Formulario de Actualizacion de Roles</h2>
+
+  @if (formRol) {
+    <form [formGroup]="formRol" (ngSubmit)="actualizarRol()">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre del rol</mat-label>
+        <input matInput type="text" formControlName="nombre" placeholder="DOCENTE" />
+        <mat-error>Nombre del rol es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Descripcion</mat-label>
+        <input matInput type="text" formControlName="descripcion" placeholder="Profesor a cargo de un aula" />
+      </mat-form-field>
+
+      <button mat-flat-button type="submit">Guardar</button>
+    </form>
+  }
+
+  @if (mensaje) {
+    <p>{{ mensaje }}</p>
+  }
+</div>
