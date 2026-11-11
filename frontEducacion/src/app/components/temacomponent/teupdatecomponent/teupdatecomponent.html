@@ -1,0 +1,25 @@
+<div class="container">
+  <h2>Formulario de Actualizacion de Temas</h2>
+
+  @if (formTema) {
+    <form [formGroup]="formTema" (ngSubmit)="actualizarTema()">
+      <mat-form-field appearance="outline">
+        <mat-label>Materia</mat-label>
+        <input matInput type="text" formControlName="materia" placeholder="Matematica" />
+        <mat-error>Materia es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre del tema</mat-label>
+        <input matInput type="text" formControlName="nombre" placeholder="Fracciones" />
+        <mat-error>Nombre del tema es obligatorio</mat-error>
+      </mat-form-field>
+
+      <button mat-flat-button type="submit">Guardar</button>
+    </form>
+  }
+
+  @if (mensaje) {
+    <p>{{ mensaje }}</p>
+  }
+</div>

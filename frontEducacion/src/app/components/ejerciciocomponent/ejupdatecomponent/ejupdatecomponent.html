@@ -1,0 +1,60 @@
+<div class="container">
+  <h2>Formulario de Actualizacion de Ejercicios</h2>
+
+  @if (formEjercicio) {
+    <form [formGroup]="formEjercicio" (ngSubmit)="actualizarEjercicio()">
+      <mat-form-field appearance="outline">
+        <mat-label>Tema</mat-label>
+        <mat-select formControlName="idTema">
+          @for (op of listaTema; track op.id) {
+            <mat-option [value]="op.id">
+              {{ op.id }} - {{ op.nombre }}
+            </mat-option>
+          }
+        </mat-select>
+        <mat-error>Tema es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Enunciado</mat-label>
+        <textarea matInput rows="3" formControlName="enunciado" placeholder="Cuanto es 1/2 + 1/4 ?"></textarea>
+        <mat-error>Enunciado es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Contenido JSON</mat-label>
+        <textarea matInput rows="3" formControlName="contenidoJson" placeholder="&#123;&quot;alternativas&quot;:[&quot;3/4&quot;,&quot;1/4&quot;]&#125;"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Respuesta correcta</mat-label>
+        <input matInput type="text" formControlName="respuestaCorrecta" placeholder="3/4" />
+        <mat-hint>El GET por id no devuelve este campo: vuelva a escribirlo</mat-hint>
+        <mat-error>Respuesta correcta es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Nivel de dificultad (1-5)</mat-label>
+        <input matInput type="number" formControlName="nivelDificultad" placeholder="" />
+        <mat-error>Nivel de dificultad (1-5) es obligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="generadoPorIa">Generado por IA</mat-checkbox>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="estado">
+          @for (op of opcionesEstado; track op.value) {
+            <mat-option [value]="op.value">{{ op.viewValue }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-flat-button type="submit">Guardar</button>
+    </form>
+  }
+
+  @if (mensaje) {
+    <p>{{ mensaje }}</p>
+  }
+</div>
