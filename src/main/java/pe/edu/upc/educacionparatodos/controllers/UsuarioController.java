@@ -45,8 +45,10 @@ public class UsuarioController {
         this.passwordEncoder = passwordEncoder;
     }
 
+    // DOCENTE tambien necesita el listado: alimenta los desplegables de estudiante
+    // en Evaluaciones y el de apoderado en Usuarios. Sin esto esas pantallas dan 403.
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<List<UsuarioDTO>> listar() {
         List<UsuarioDTO> lista = uS.list()
                 .stream()
