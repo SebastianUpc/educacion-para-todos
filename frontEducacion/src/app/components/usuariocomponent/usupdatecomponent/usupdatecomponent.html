@@ -55,6 +55,16 @@
         </mat-select>
       </mat-form-field>
 
+      <mat-form-field appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select formControlName="estado">
+          @for (op of opcionesEstado; track op.value) {
+            <mat-option [value]="op.value">{{ op.viewValue }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+
       <button mat-flat-button type="submit">Guardar</button>
     </form>
   }

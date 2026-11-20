@@ -15,6 +15,7 @@ import pe.edu.upc.educacionparatodos.servicesinterfaces.IRolService;
 import pe.edu.upc.educacionparatodos.servicesinterfaces.IUsuarioService;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -46,6 +47,12 @@ class UsuarioControllerTest {
 
         controller = new UsuarioController(
                 usuarioService, rolService, aulaService, new ModelMapper(), passwordEncoder);
+
+        // El controlador resuelve el rol contra su servicio antes de guardar.
+        Rol rol = new Rol();
+        rol.setId(3L);
+        rol.setNombre("ESTUDIANTE");
+        when(rolService.listId(3L)).thenReturn(Optional.of(rol));
     }
 
     private Usuario usuarioDePrueba(Long id, String nombre, String estado) {
@@ -129,6 +136,76 @@ class UsuarioControllerTest {
 
         assertThatThrownBy(() -> controller.registrar(dto))
                 .isInstanceOf(BusinessRuleException.class);
+    }
+
+    @Test
+    @DisplayName("Al actualizar se puede reactivar a un usuario dado de baja")
+    void actualizarReactivaAlUsuario() {
+        Usuario inactivo = usuarioDePrueba(7L, "Pedro", "INACTIVO");
+        when(usuarioService.listId(7L)).thenReturn(Optional.of(inactivo));
+
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(7L);
+        dto.setNombre("Pedro");
+        dto.setApellido("Ramos");
+        dto.setEmail(inactivo.getEmail());
+        dto.setIdRol(3L);
+        dto.setEstado("ACTIVO");
+
+        controller.actualizar(dto);
+
+        assertThat(inactivo.getEstado()).isEqualTo("ACTIVO");
+    }
+
+    @Test
+    @DisplayName("Al actualizar se puede dar de baja a un usuario activo")
+    void actualizarDaDeBajaAlUsuario() {
+        Usuario activo = usuarioDePrueba(1L, "Ana", "ACTIVO");
+        when(usuarioService.listId(1L)).thenReturn(Optional.of(activo));
+
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(1L);
+        dto.setEmail(activo.getEmail());
+        dto.setIdRol(3L);
+        dto.setEstado("INACTIVO");
+
+        controller.actualizar(dto);
+
+        assertThat(activo.getEstado()).isEqualTo("INACTIVO");
+    }
+
+    @Test
+    @DisplayName("Si no se envia estado al actualizar, el usuario queda ACTIVO")
+    void actualizarSinEstadoDejaActivo() {
+        Usuario usuario = usuarioDePrueba(1L, "Ana", "ACTIVO");
+        when(usuarioService.listId(1L)).thenReturn(Optional.of(usuario));
+
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(1L);
+        dto.setEmail(usuario.getEmail());
+        dto.setIdRol(3L);
+        dto.setEstado(null);
+
+        controller.actualizar(dto);
+
+        assertThat(usuario.getEstado()).isEqualTo("ACTIVO");
+    }
+
+    @Test
+    @DisplayName("Un estado que no existe es un error de regla de negocio")
+    void actualizarConEstadoInvalidoFalla() {
+        Usuario usuario = usuarioDePrueba(1L, "Ana", "ACTIVO");
+        when(usuarioService.listId(1L)).thenReturn(Optional.of(usuario));
+
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setId(1L);
+        dto.setEmail(usuario.getEmail());
+        dto.setIdRol(3L);
+        dto.setEstado("SUSPENDIDO");
+
+        assertThatThrownBy(() -> controller.actualizar(dto))
+                .isInstanceOf(BusinessRuleException.class)
+                .hasMessageContaining("ACTIVO");
     }
 
     @Test
