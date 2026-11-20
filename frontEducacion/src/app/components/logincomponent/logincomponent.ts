@@ -42,9 +42,8 @@ export class Logincomponent {
     };
 
     this.lS.login(credenciales).subscribe({
-      next: (data) => {
-        this.lS.guardarSesion(data);
-        this.router.navigate(['/usuario/listar']);
+      next: () => {
+        this.router.navigate(['/']);
       },
       error: (err) => {
         console.log(err);
