@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoginRequest } from '../models/LoginRequest';
 import { LoginResponse } from '../models/LoginResponse';
@@ -9,52 +10,123 @@ import { LoginResponse } from '../models/LoginResponse';
   providedIn: 'root',
 })
 export class Loginservice {
-  private apiURL = `${environment.base}/login`;
+  private readonly apiURL = `${environment.base}/login`;
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   login(credenciales: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.apiURL, credenciales);
-  }
+    return this.http.post<LoginResponse>(this.apiURL, credenciales).pipe(
+      tap((response) => {
+        if (!response?.token) {
+          throw new Error('La respuesta de login no contiene un token.');
+        }
 
-  guardarSesion(data: LoginResponse): void {
-    sessionStorage.setItem('token', data.token);
-    sessionStorage.setItem('username', data.username);
+        if (this.isBrowser) {
+          sessionStorage.setItem('token', response.token);
+          sessionStorage.setItem('username', response.username ?? '');
+          sessionStorage.setItem('roles', JSON.stringify(response.roles ?? []));
+        }
+      })
+    );
   }
 
   getToken(): string | null {
-    return sessionStorage.getItem('token');
+    if (!this.isBrowser) {
+      return null;
+    }
+
+    const token = sessionStorage.getItem('token');
+    if (!token) {
+      return null;
+    }
+
+    // Si el token ya vencio se cierra la sesion sola, en vez de dejar que la
+    // API responda 401 en cada pantalla.
+    if (this.isExpired(token)) {
+      this.logout();
+      return null;
+    }
+
+    return token;
   }
 
-  getUsername(): string {
-    return sessionStorage.getItem('username') || '';
-  }
-
-  estaLogueado(): boolean {
+  isAuthenticated(): boolean {
     return this.getToken() !== null;
   }
 
-  salir(): void {
-    sessionStorage.clear();
+  getUsername(): string {
+    if (!this.isBrowser || !this.isAuthenticated()) {
+      return '';
+    }
+
+    return sessionStorage.getItem('username') ?? '';
   }
 
-  // Lee el claim "roles" del JWT que genera JwtTokenService en el backend.
-  // Llega como texto separado por comas, por ejemplo: ROLE_ADMIN
+  // Los roles llegan en la respuesta del login y se guardan como arreglo JSON.
   getRoles(): string[] {
-    const token = this.getToken();
-    if (!token) {
+    if (!this.isBrowser || !this.isAuthenticated()) {
       return [];
     }
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      const roles = payload.roles || '';
-      return roles.split(',').filter((r: string) => r.length > 0);
-    } catch {
+
+    const value = sessionStorage.getItem('roles');
+    if (!value) {
       return [];
+    }
+
+    try {
+      const roles: unknown = JSON.parse(value);
+
+      if (Array.isArray(roles) && roles.every((role) => typeof role === 'string')) {
+        return roles;
+      }
+    } catch {
+      sessionStorage.removeItem('roles');
+      return [];
+    }
+
+    sessionStorage.removeItem('roles');
+    return [];
+  }
+
+  // El backend entrega las autoridades con el prefijo ROLE_. Se comparan sin el
+  // prefijo para que el frontend pueda pedir 'ADMIN' y no 'ROLE_ADMIN'.
+  hasAnyRole(allowedRoles: readonly string[]): boolean {
+    const normalize = (role: string) =>
+      role.startsWith('ROLE_') ? role.slice('ROLE_'.length) : role;
+
+    const allowed = new Set(allowedRoles.map(normalize));
+    return this.getRoles().some((role) => allowed.has(normalize(role)));
+  }
+
+  logout(): void {
+    if (this.isBrowser) {
+      sessionStorage.removeItem('token');
+      sessionStorage.removeItem('username');
+      sessionStorage.removeItem('roles');
     }
   }
 
-  tieneRol(rol: string): boolean {
-    return this.getRoles().includes(rol) || this.getRoles().includes('ROLE_' + rol);
+  private isExpired(token: string): boolean {
+    try {
+      const payloadPart = token.split('.')[1];
+      if (!payloadPart) {
+        return true;
+      }
+
+      const base64 = payloadPart.replace(/-/g, '+').replace(/_/g, '/');
+      const payload: unknown = JSON.parse(
+        atob(base64.padEnd(Math.ceil(base64.length / 4) * 4, '='))
+      );
+
+      if (payload === null || typeof payload !== 'object' || !('exp' in payload)) {
+        return true;
+      }
+
+      const exp = payload.exp;
+      return typeof exp !== 'number' || !Number.isFinite(exp) || exp * 1000 <= Date.now();
+    } catch {
+      return true;
+    }
   }
 }

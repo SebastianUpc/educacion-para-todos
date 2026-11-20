@@ -32,8 +32,10 @@ public class RolController {
         this.modelMapper = modelMapper;
     }
 
+    // DOCENTE tambien necesita el listado: alimenta el desplegable de rol al
+    // registrar y actualizar usuarios, operaciones que su perfil si puede hacer.
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<List<RolDTO>> listar() {
         List<RolDTO> lista = rS.list()
                 .stream()

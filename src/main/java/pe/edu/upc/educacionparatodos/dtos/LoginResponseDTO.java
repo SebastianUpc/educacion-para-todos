@@ -1,16 +1,20 @@
 package pe.edu.upc.educacionparatodos.dtos;
 
+import java.util.List;
+
 public class LoginResponseDTO {
 
     private String token;
     private String username;
+    private List<String> roles;
 
     public LoginResponseDTO() {
     }
 
-    public LoginResponseDTO(String token, String username) {
+    public LoginResponseDTO(String token, String username, List<String> roles) {
         this.token = token;
         this.username = username;
+        this.roles = roles;
     }
 
     public String getToken() {
@@ -27,5 +31,13 @@ public class LoginResponseDTO {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
     }
 }
