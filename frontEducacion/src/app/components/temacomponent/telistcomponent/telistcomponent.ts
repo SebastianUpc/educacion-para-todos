@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { TemaDTO } from '../../../models/TemaDTO';
 import { Temaservice } from '../../../services/temaservice';
+import { Loginservice } from '../../../services/loginservice';
 
 @Component({
   selector: 'app-telistcomponent',
@@ -13,16 +14,39 @@ import { Temaservice } from '../../../services/temaservice';
   styleUrl: './telistcomponent.css',
 })
 export class Telistcomponent implements OnInit {
-  displayedColumns: string[] = ['c1', 'c2', 'c3', 'cEditar', 'cEliminar'];
+  displayedColumns: string[] = ['c1', 'c2', 'c3'];
   dataSource: TemaDTO[] = [];
   mensaje: string = '';
 
   constructor(
+    private lS: Loginservice,
     private tS: Temaservice,
     private cdr: ChangeDetectorRef
   ) {}
 
+  get esAdmin(): boolean {
+    return this.lS.hasAnyRole(['ADMIN']);
+  }
+
+  get gestiona(): boolean {
+    return this.lS.hasAnyRole(['ADMIN', 'DOCENTE']);
+  }
+
+  // Las columnas de accion solo se muestran a quien la API le permite esa operacion.
+  // Ocultarlas no reemplaza la validacion del backend: evita intentos que darian 403.
+  armarColumnas(): void {
+    const columnas: string[] = ['c1', 'c2', 'c3'];
+    if (this.gestiona) {
+      columnas.push('cEditar');
+    }
+    if (this.esAdmin) {
+      columnas.push('cEliminar');
+    }
+    this.displayedColumns = columnas;
+  }
+
   ngOnInit(): void {
+    this.armarColumnas();
     this.obtenerTemas();
   }
 

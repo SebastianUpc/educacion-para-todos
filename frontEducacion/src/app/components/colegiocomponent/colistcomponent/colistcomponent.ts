@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { ColegioDTO } from '../../../models/ColegioDTO';
 import { Colegioservice } from '../../../services/colegioservice';
+import { Loginservice } from '../../../services/loginservice';
 
 @Component({
   selector: 'app-colistcomponent',
@@ -13,16 +14,39 @@ import { Colegioservice } from '../../../services/colegioservice';
   styleUrl: './colistcomponent.css',
 })
 export class Colistcomponent implements OnInit {
-  displayedColumns: string[] = ['c1', 'c2', 'c3', 'c4', 'cEditar', 'cEliminar'];
+  displayedColumns: string[] = ['c1', 'c2', 'c3', 'c4'];
   dataSource: ColegioDTO[] = [];
   mensaje: string = '';
 
   constructor(
+    private lS: Loginservice,
     private cS: Colegioservice,
     private cdr: ChangeDetectorRef
   ) {}
 
+  get esAdmin(): boolean {
+    return this.lS.hasAnyRole(['ADMIN']);
+  }
+
+  get gestiona(): boolean {
+    return this.lS.hasAnyRole(['ADMIN', 'DOCENTE']);
+  }
+
+  // Las columnas de accion solo se muestran a quien la API le permite esa operacion.
+  // Ocultarlas no reemplaza la validacion del backend: evita intentos que darian 403.
+  armarColumnas(): void {
+    const columnas: string[] = ['c1', 'c2', 'c3', 'c4'];
+    if (this.esAdmin) {
+      columnas.push('cEditar');
+    }
+    if (this.esAdmin) {
+      columnas.push('cEliminar');
+    }
+    this.displayedColumns = columnas;
+  }
+
   ngOnInit(): void {
+    this.armarColumnas();
     this.obtenerColegios();
   }
 

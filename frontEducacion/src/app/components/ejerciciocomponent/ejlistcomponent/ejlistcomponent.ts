@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { EjercicioDTO } from '../../../models/EjercicioDTO';
 import { Ejercicioservice } from '../../../services/ejercicioservice';
+import { Loginservice } from '../../../services/loginservice';
 
 @Component({
   selector: 'app-ejlistcomponent',
@@ -13,16 +14,39 @@ import { Ejercicioservice } from '../../../services/ejercicioservice';
   styleUrl: './ejlistcomponent.css',
 })
 export class Ejlistcomponent implements OnInit {
-  displayedColumns: string[] = ['c1', 'c2', 'c3', 'c4', 'c5', 'cEditar', 'cEliminar'];
+  displayedColumns: string[] = ['c1', 'c2', 'c3', 'c4', 'c5'];
   dataSource: EjercicioDTO[] = [];
   mensaje: string = '';
 
   constructor(
+    private lS: Loginservice,
     private eS: Ejercicioservice,
     private cdr: ChangeDetectorRef
   ) {}
 
+  get esAdmin(): boolean {
+    return this.lS.hasAnyRole(['ADMIN']);
+  }
+
+  get gestiona(): boolean {
+    return this.lS.hasAnyRole(['ADMIN', 'DOCENTE']);
+  }
+
+  // Las columnas de accion solo se muestran a quien la API le permite esa operacion.
+  // Ocultarlas no reemplaza la validacion del backend: evita intentos que darian 403.
+  armarColumnas(): void {
+    const columnas: string[] = ['c1', 'c2', 'c3', 'c4', 'c5'];
+    if (this.gestiona) {
+      columnas.push('cEditar');
+    }
+    if (this.esAdmin) {
+      columnas.push('cEliminar');
+    }
+    this.displayedColumns = columnas;
+  }
+
   ngOnInit(): void {
+    this.armarColumnas();
     this.obtenerEjercicios();
   }
 

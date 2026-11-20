@@ -23,11 +23,23 @@ export class Menucomponent {
   }
 
   get logueado(): boolean {
-    return this.lS.estaLogueado();
+    return this.lS.isAuthenticated();
+  }
+
+  // El menu muestra solo lo que el perfil puede ejecutar segun los @PreAuthorize
+  // de la API. Ocultar una opcion no reemplaza esa validacion: el backend sigue
+  // siendo quien autoriza. Esto solo evita que el usuario intente algo que
+  // terminaria en un 403.
+  get esAdmin(): boolean {
+    return this.lS.hasAnyRole(['ADMIN']);
+  }
+
+  get gestiona(): boolean {
+    return this.lS.hasAnyRole(['ADMIN', 'DOCENTE']);
   }
 
   salir(): void {
-    this.lS.salir();
+    this.lS.logout();
     this.router.navigate(['/login']);
   }
 }
