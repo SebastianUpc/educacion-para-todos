@@ -14,6 +14,7 @@ public interface IColegioRepository extends JpaRepository<Colegio, Long> {
 
     @Query(value = "select c.distrito, count(c.id)\n" +
             " from colegios c\n" +
-            " group by c.distrito", nativeQuery = true)
+            " group by c.distrito\n" +
+            " order by count(c.id) desc", nativeQuery = true)
     List<Object[]> contarColegiosPorDistrito();
 }
