@@ -22,13 +22,6 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Contrasena</mat-label>
-        <input matInput type="password" formControlName="password" placeholder="" />
-        <mat-hint>El backend exige este campo aunque la contrasena no se actualiza</mat-hint>
-        <mat-error>Contrasena es obligatorio</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
         <mat-label>Rol</mat-label>
         <mat-select formControlName="idRol">
           @for (op of listaRol; track op.id) {
