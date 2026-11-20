@@ -15,10 +15,14 @@ public interface IEvaluacionRepository extends JpaRepository<Evaluacion, Long> {
     // Query simple: lista las evaluaciones filtradas por su estado (EN_CURSO / FINALIZADA)
     List<Evaluacion> findByEstado(String estado);
 
-    // Query con JOIN: cuenta cuantas evaluaciones tiene rendidas cada estudiante
-    @Query(value = "select u.nombre, count(e.id)\n" +
+    // Query con JOIN: cuenta cuantas evaluaciones tiene rendidas cada estudiante.
+    // Se agrupa por u.id y no por el nombre: el nombre no es unico, asi que agrupar
+    // por el fusionaria en una sola fila a dos estudiantes que se llamen igual.
+    // Se muestra nombre y apellido para poder distinguirlos.
+    @Query(value = "select concat(u.nombre, ' ', u.apellido), count(e.id)\n" +
             " from usuarios u left join evaluaciones e\n" +
             " on u.id = e.estudiante_id\n" +
-            " group by u.nombre", nativeQuery = true)
+            " group by u.id, u.nombre, u.apellido\n" +
+            " order by count(e.id) desc", nativeQuery = true)
     List<Object[]> contarEvaluacionesPorEstudiante();
 }

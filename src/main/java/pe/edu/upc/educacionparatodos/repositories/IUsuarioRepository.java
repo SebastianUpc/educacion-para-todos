@@ -29,7 +29,7 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query(value = "select r.nombre_rol, count(u.id)\n" +
             " from roles r left join usuarios u\n" +
             " on r.id = u.rol_id\n" +
-            " group by r.nombre_rol\n" +
+            " group by r.id, r.nombre_rol\n" +
             " order by count(u.id) desc", nativeQuery = true)
     List<Object[]> contarUsuariosPorRol();
 }
