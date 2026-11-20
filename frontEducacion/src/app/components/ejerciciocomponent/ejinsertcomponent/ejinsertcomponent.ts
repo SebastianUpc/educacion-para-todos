@@ -41,7 +41,7 @@ export class Ejinsertcomponent implements OnInit {
       respuestaCorrecta: ['', Validators.required],
       nivelDificultad: [1, [Validators.required, Validators.min(1)]],
       generadoPorIa: [false],
-      estado: ['ACTIVO', Validators.required],
+      estado: ['ACTIVO', [Validators.required, Validators.maxLength(20)]],
     });
 
     this.tS.getTema().subscribe({

@@ -37,7 +37,7 @@ export class Roupdatecomponent implements OnInit {
 
     this.formRol = this.fb.group({
       nombre: ['', Validators.required],
-      descripcion: [''],
+      descripcion: ['', Validators.required],
     });
 
     this.buscarPorId();

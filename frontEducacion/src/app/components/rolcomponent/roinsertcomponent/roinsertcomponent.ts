@@ -26,7 +26,7 @@ export class Roinsertcomponent implements OnInit {
   ngOnInit(): void {
     this.formRol = this.fb.group({
       nombre: ['', Validators.required],
-      descripcion: [''],
+      descripcion: ['', Validators.required],
     });
 
   }
