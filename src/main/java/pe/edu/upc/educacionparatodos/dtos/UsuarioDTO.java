@@ -22,7 +22,9 @@ public class UsuarioDTO {
     @Size(max = 150, message = "El correo no puede superar los 150 caracteres")
     private String email;
 
-    @NotBlank(message = "La contraseña es obligatoria")
+    // Sin @NotBlank: este DTO se usa tanto para registrar como para actualizar,
+    // y al actualizar la contraseña no se envia. La obligatoriedad se valida
+    // en UsuarioController.registrar(), que es donde si hace falta.
     @Size(max = 255, message = "La contraseña no puede superar los 255 caracteres")
     private String password;
 

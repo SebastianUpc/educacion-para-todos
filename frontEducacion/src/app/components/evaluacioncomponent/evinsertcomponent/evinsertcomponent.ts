@@ -20,11 +20,6 @@ export class Evinsertcomponent implements OnInit {
   mensaje: string = '';
   listaUsuario: UsuarioDTO[] = [];
 
-  opcionesEstado: any[] = [
-    { value: 'EN_CURSO', viewValue: 'EN_CURSO' },
-    { value: 'FINALIZADA', viewValue: 'FINALIZADA' },
-  ];
-
   constructor(
     private eS: Evaluacionservice,
     private uS: Usuarioservice,
@@ -35,7 +30,6 @@ export class Evinsertcomponent implements OnInit {
   ngOnInit(): void {
     this.formEvaluacion = this.fb.group({
       idEstudiante: ['', Validators.required],
-      estado: ['EN_CURSO'],
     });
 
     this.uS.getUsuario().subscribe({
@@ -56,17 +50,15 @@ export class Evinsertcomponent implements OnInit {
     const evaluacion: EvaluacionDTO = {
       id: 0,
       idEstudiante: this.formEvaluacion.value.idEstudiante,
-      estado: this.formEvaluacion.value.estado,
+      estado: '', // lo asigna el backend: siempre EN_CURSO al registrar
       fechaInicio: null, // lo escribe el backend
       fechaFin: null, // lo escribe el backend
     };
 
     this.eS.insertEvaluacion(evaluacion).subscribe({
       next: () => {
-        this.mensaje = 'Evaluacion registrado correctamente.';
-        this.formEvaluacion.reset({
-          estado: 'EN_CURSO',
-        });
+        this.mensaje = 'Evaluacion registrada correctamente.';
+        this.formEvaluacion.reset();
         this.cdr.detectChanges();
       },
       error: (err) => {

@@ -5,6 +5,10 @@
     <p>{{ mensaje }}</p>
   }
 
+  <div class="grafico">
+    <canvas #grafico></canvas>
+  </div>
+
   @if (dataSource.length > 0) {
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
       <ng-container matColumnDef="c1">

@@ -71,6 +71,10 @@ public class UsuarioController {
     @PostMapping
     @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<UsuarioDTO> registrar(@Valid @RequestBody UsuarioDTO dto) {
+        if (dto.getPassword() == null || dto.getPassword().isBlank()) {
+            throw new BusinessRuleException("La contraseña es obligatoria");
+        }
+
         if (uS.existsByEmail(dto.getEmail())) {
             throw new BusinessRuleException(
                     "Ya existe un usuario registrado con el correo: " + dto.getEmail()
