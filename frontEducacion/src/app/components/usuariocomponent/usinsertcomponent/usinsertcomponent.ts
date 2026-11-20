@@ -34,10 +34,10 @@ export class Usinsertcomponent implements OnInit {
 
   ngOnInit(): void {
     this.formUsuario = this.fb.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      nombre: ['', [Validators.required, Validators.maxLength(150)]],
+      apellido: ['', [Validators.required, Validators.maxLength(150)]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(150)]],
+      password: ['', [Validators.required, Validators.maxLength(255)]],
       idRol: ['', Validators.required],
       idAula: [''],
       idApoderado: [''],

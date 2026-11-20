@@ -36,8 +36,8 @@ export class Teupdatecomponent implements OnInit {
     }
 
     this.formTema = this.fb.group({
-      materia: ['', Validators.required],
-      nombre: ['', Validators.required],
+      materia: ['', [Validators.required, Validators.maxLength(100)]],
+      nombre: ['', [Validators.required, Validators.maxLength(150)]],
     });
 
     this.buscarPorId();

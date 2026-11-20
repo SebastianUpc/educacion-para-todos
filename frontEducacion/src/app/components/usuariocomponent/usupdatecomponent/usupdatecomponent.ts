@@ -50,9 +50,9 @@ export class Usupdatecomponent implements OnInit {
     }
 
     this.formUsuario = this.fb.group({
-      nombre: ['', Validators.required],
-      apellido: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      nombre: ['', [Validators.required, Validators.maxLength(150)]],
+      apellido: ['', [Validators.required, Validators.maxLength(150)]],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(150)]],
       idRol: ['', Validators.required],
       idAula: [''],
       idApoderado: [''],
