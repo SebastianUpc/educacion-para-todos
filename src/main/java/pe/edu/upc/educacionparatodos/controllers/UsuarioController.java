@@ -123,6 +123,7 @@ public class UsuarioController {
         usuario.setRol(buscarRol(dto.getIdRol()));
         usuario.setAula(buscarAula(dto.getIdAula()));
         usuario.setApoderado(buscarApoderado(dto.getIdApoderado()));
+        usuario.setEstado(validarEstado(dto.getEstado()));
 
         uS.update(usuario);
 
@@ -197,6 +198,24 @@ public class UsuarioController {
                 .toList();
 
         return ResponseEntity.ok(lista);
+    }
+
+    // El estado se puede cambiar al actualizar: es la unica forma de reactivar a un
+    // usuario dado de baja, porque la eliminacion es logica y solo lo pasa a INACTIVO.
+    // Si no se envia nada se conserva ACTIVO, que es el valor con el que se registra.
+    private String validarEstado(String estado) {
+        if (estado == null || estado.isBlank()) {
+            return ESTADO_ACTIVO;
+        }
+
+        String limpio = estado.trim().toUpperCase();
+        if (!ESTADO_ACTIVO.equals(limpio) && !ESTADO_INACTIVO.equals(limpio)) {
+            throw new BusinessRuleException(
+                    "El estado debe ser " + ESTADO_ACTIVO + " o " + ESTADO_INACTIVO
+            );
+        }
+
+        return limpio;
     }
 
     private UsuarioDTO convertirADTO(Usuario usuario) {

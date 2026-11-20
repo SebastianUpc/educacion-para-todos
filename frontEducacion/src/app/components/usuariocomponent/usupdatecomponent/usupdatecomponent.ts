@@ -26,6 +26,11 @@ export class Usupdatecomponent implements OnInit {
   listaAula: AulaDTO[] = [];
   listaUsuario: UsuarioDTO[] = [];
 
+  opcionesEstado: any[] = [
+    { value: 'ACTIVO', viewValue: 'ACTIVO' },
+    { value: 'INACTIVO', viewValue: 'INACTIVO' },
+  ];
+
   constructor(
     private uS: Usuarioservice,
     private rS: Rolservice,
@@ -51,6 +56,7 @@ export class Usupdatecomponent implements OnInit {
       idRol: ['', Validators.required],
       idAula: [''],
       idApoderado: [''],
+      estado: ['', Validators.required],
     });
 
     this.rS.getRol().subscribe({
@@ -88,6 +94,7 @@ export class Usupdatecomponent implements OnInit {
           idRol: data.idRol,
           idAula: data.idAula,
           idApoderado: data.idApoderado,
+          estado: data.estado,
         });
         this.cdr.detectChanges();
       },
@@ -114,7 +121,7 @@ export class Usupdatecomponent implements OnInit {
       idRol: this.formUsuario.value.idRol,
       idAula: this.formUsuario.value.idAula === '' ? null : this.formUsuario.value.idAula,
       idApoderado: this.formUsuario.value.idApoderado === '' ? null : this.formUsuario.value.idApoderado,
-      estado: '', // el backend lo asigna
+      estado: this.formUsuario.value.estado,
     };
 
     this.uS.update(usuario).subscribe({
