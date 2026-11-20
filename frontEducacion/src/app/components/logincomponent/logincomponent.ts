@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,6 +22,7 @@ export class Logincomponent {
     private lS: Loginservice,
     private fb: FormBuilder,
     private router: Router,
+    private route: ActivatedRoute,
     private cdr: ChangeDetectorRef
   ) {
     this.formLogin = this.fb.group({
@@ -43,7 +44,15 @@ export class Logincomponent {
 
     this.lS.login(credenciales).subscribe({
       next: () => {
-        this.router.navigate(['/']);
+        // El authGuard guarda en returnUrl la pantalla a la que se intentaba
+        // entrar. Si existe, se vuelve ahi; si no, al inicio.
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        const destino =
+          returnUrl && returnUrl.startsWith('/') && !returnUrl.startsWith('//')
+            ? returnUrl
+            : '/';
+
+        this.router.navigateByUrl(destino);
       },
       error: (err) => {
         console.log(err);
