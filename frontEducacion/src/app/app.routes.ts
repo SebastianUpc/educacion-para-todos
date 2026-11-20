@@ -16,14 +16,14 @@ import { Rolcomponent } from './components/rolcomponent/rolcomponent';
 import { Rolistcomponent } from './components/rolcomponent/rolistcomponent/rolistcomponent';
 import { Roinsertcomponent } from './components/rolcomponent/roinsertcomponent/roinsertcomponent';
 import { Roupdatecomponent } from './components/rolcomponent/roupdatecomponent/roupdatecomponent';
-// import { Temacomponent } from './components/temacomponent/temacomponent';
-// import { Telistcomponent } from './components/temacomponent/telistcomponent/telistcomponent';
-// import { Teinsertcomponent } from './components/temacomponent/teinsertcomponent/teinsertcomponent';
-// import { Teupdatecomponent } from './components/temacomponent/teupdatecomponent/teupdatecomponent';
-// import { Ejerciciocomponent } from './components/ejerciciocomponent/ejerciciocomponent';
-// import { Ejlistcomponent } from './components/ejerciciocomponent/ejlistcomponent/ejlistcomponent';
-// import { Ejinsertcomponent } from './components/ejerciciocomponent/ejinsertcomponent/ejinsertcomponent';
-// import { Ejupdatecomponent } from './components/ejerciciocomponent/ejupdatecomponent/ejupdatecomponent';
+import { Temacomponent } from './components/temacomponent/temacomponent';
+import { Telistcomponent } from './components/temacomponent/telistcomponent/telistcomponent';
+import { Teinsertcomponent } from './components/temacomponent/teinsertcomponent/teinsertcomponent';
+import { Teupdatecomponent } from './components/temacomponent/teupdatecomponent/teupdatecomponent';
+import { Ejerciciocomponent } from './components/ejerciciocomponent/ejerciciocomponent';
+import { Ejlistcomponent } from './components/ejerciciocomponent/ejlistcomponent/ejlistcomponent';
+import { Ejinsertcomponent } from './components/ejerciciocomponent/ejinsertcomponent/ejinsertcomponent';
+import { Ejupdatecomponent } from './components/ejerciciocomponent/ejupdatecomponent/ejupdatecomponent';
 import { Usuariocomponent } from './components/usuariocomponent/usuariocomponent';
 import { Uslistcomponent } from './components/usuariocomponent/uslistcomponent/uslistcomponent';
 import { Usinsertcomponent } from './components/usuariocomponent/usinsertcomponent/usinsertcomponent';
@@ -35,20 +35,12 @@ import { Evlistcomponent } from './components/evaluacioncomponent/evlistcomponen
 import { Evinsertcomponent } from './components/evaluacioncomponent/evinsertcomponent/evinsertcomponent';
 import { Evupdatecomponent } from './components/evaluacioncomponent/evupdatecomponent/evupdatecomponent';
 import { Evbuscarcomponent } from './components/evaluacioncomponent/evbuscarcomponent/evbuscarcomponent';
+import { Evhistorialcomponent } from './components/evaluacioncomponent/evhistorialcomponent/evhistorialcomponent';
 import { Evcantidadescomponent } from './components/evaluacioncomponent/evcantidadescomponent/evcantidadescomponent';
 import { Progresocomponent } from './components/progresocomponent/progresocomponent';
 import { Prlistcomponent } from './components/progresocomponent/prlistcomponent/prlistcomponent';
 import { Detalleevaluacioncomponent } from './components/detalleevaluacioncomponent/detalleevaluacioncomponent';
 import { Delistcomponent } from './components/detalleevaluacioncomponent/delistcomponent/delistcomponent';
-
-// ---------------------------------------------------------------------------
-// PENDIENTE (Recoba): Tema y Ejercicio
-// Los imports y los dos bloques de ruta de abajo estan comentados porque esos
-// componentes todavia no estan en el repositorio. Al agregar las carpetas
-// temacomponent/ y ejerciciocomponent/, descomentar:
-//   1. los 8 imports marcados con //
-//   2. los dos bloques de ruta  path: 'tema'  y  path: 'ejercicio'
-// ---------------------------------------------------------------------------
 
 export const routes: Routes = [
   { path: '', component: Homecomponent },
@@ -88,28 +80,28 @@ export const routes: Routes = [
       { path: 'editar/:id', component: Roupdatecomponent },
     ],
   },
-  // {
-  // path: 'tema',
-  // component: Temacomponent,
-  // canActivate: [authGuard],
-  // children: [
-  // { path: '', redirectTo: 'listar', pathMatch: 'full' },
-  // { path: 'listar', component: Telistcomponent },
-  // { path: 'insertar', component: Teinsertcomponent },
-  // { path: 'editar/:id', component: Teupdatecomponent },
-  // ],
-  // },
-  // {
-  // path: 'ejercicio',
-  // component: Ejerciciocomponent,
-  // canActivate: [authGuard],
-  // children: [
-  // { path: '', redirectTo: 'listar', pathMatch: 'full' },
-  // { path: 'listar', component: Ejlistcomponent },
-  // { path: 'insertar', component: Ejinsertcomponent },
-  // { path: 'editar/:id', component: Ejupdatecomponent },
-  // ],
-  // },
+  {
+    path: 'tema',
+    component: Temacomponent,
+    canActivate: [authGuard],
+    children: [
+      { path: '', redirectTo: 'listar', pathMatch: 'full' },
+      { path: 'listar', component: Telistcomponent },
+      { path: 'insertar', component: Teinsertcomponent },
+      { path: 'editar/:id', component: Teupdatecomponent },
+    ],
+  },
+  {
+    path: 'ejercicio',
+    component: Ejerciciocomponent,
+    canActivate: [authGuard],
+    children: [
+      { path: '', redirectTo: 'listar', pathMatch: 'full' },
+      { path: 'listar', component: Ejlistcomponent },
+      { path: 'insertar', component: Ejinsertcomponent },
+      { path: 'editar/:id', component: Ejupdatecomponent },
+    ],
+  },
   {
     path: 'usuario',
     component: Usuariocomponent,
@@ -133,6 +125,7 @@ export const routes: Routes = [
       { path: 'insertar', component: Evinsertcomponent },
       { path: 'editar/:id', component: Evupdatecomponent },
       { path: 'buscar', component: Evbuscarcomponent },
+      { path: 'historial', component: Evhistorialcomponent },
       { path: 'cantidades', component: Evcantidadescomponent },
     ],
   },

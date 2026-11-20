@@ -26,21 +26,17 @@
         <button mat-menu-item routerLink="/rol/insertar">Insertar</button>
       </mat-menu>
 
-      <!-- PENDIENTE (Recoba): descomentar al agregar Temas
       <button mat-button [matMenuTriggerFor]="menuTema">Temas</button>
       <mat-menu #menuTema="matMenu">
         <button mat-menu-item routerLink="/tema/listar">Listar</button>
         <button mat-menu-item routerLink="/tema/insertar">Insertar</button>
       </mat-menu>
-      -->
 
-      <!-- PENDIENTE (Recoba): descomentar al agregar Ejercicios
       <button mat-button [matMenuTriggerFor]="menuEjercicio">Ejercicios</button>
       <mat-menu #menuEjercicio="matMenu">
         <button mat-menu-item routerLink="/ejercicio/listar">Listar</button>
         <button mat-menu-item routerLink="/ejercicio/insertar">Insertar</button>
       </mat-menu>
-      -->
 
       <button mat-button [matMenuTriggerFor]="menuUsuario">Usuarios</button>
       <mat-menu #menuUsuario="matMenu">
@@ -55,6 +51,7 @@
         <button mat-menu-item routerLink="/evaluacion/listar">Listar</button>
         <button mat-menu-item routerLink="/evaluacion/insertar">Insertar</button>
         <button mat-menu-item routerLink="/evaluacion/buscar">Buscar</button>
+        <button mat-menu-item routerLink="/evaluacion/historial">Historial por estudiante</button>
         <button mat-menu-item routerLink="/evaluacion/cantidades">Evaluaciones por estudiante</button>
       </mat-menu>
 

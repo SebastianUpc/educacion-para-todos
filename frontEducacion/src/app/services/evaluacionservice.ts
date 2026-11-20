@@ -45,6 +45,11 @@ export class Evaluacionservice {
     });
   }
 
+  // Historial: evaluaciones de un estudiante, de la mas reciente a la mas antigua
+  getEstudiante(idEstudiante: number): Observable<EvaluacionDTO[]> {
+    return this.http.get<EvaluacionDTO[]>(`${this.apiURL}/estudiante/${idEstudiante}`);
+  }
+
   // Query con JOIN: evaluaciones por estudiante
   getCantidades(): Observable<EvaluacionesPorEstudianteDTO[]> {
     return this.http.get<EvaluacionesPorEstudianteDTO[]>(`${this.apiURL}/cantidades`);
