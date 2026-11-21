@@ -45,3 +45,9 @@ mat-toolbar button[mat-button]:hover {
 mat-icon {
   color: #ffffff;
 }
+
+/* Seccion en la que esta el usuario: se resalta dentro de la barra azul */
+mat-toolbar button[mat-button].activo {
+  background: rgba(255, 255, 255, 0.22);
+  font-weight: 700;
+}

@@ -38,6 +38,13 @@ export class Menucomponent {
     return this.lS.hasAnyRole(['ADMIN', 'DOCENTE']);
   }
 
+  // Marca el boton de la seccion en la que esta el usuario. Se compara contra
+  // router.url y no con routerLinkActive porque los botones de la barra abren un
+  // menu desplegable: no tienen routerLink propio al que engancharse.
+  seccionActiva(ruta: string): boolean {
+    return this.router.url.startsWith(ruta);
+  }
+
   salir(): void {
     this.lS.logout();
     this.router.navigate(['/login']);
