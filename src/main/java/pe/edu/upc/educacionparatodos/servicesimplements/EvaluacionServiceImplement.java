@@ -2,6 +2,8 @@ package pe.edu.upc.educacionparatodos.servicesimplements;
 
 import org.springframework.stereotype.Service;
 import pe.edu.upc.educacionparatodos.entities.Evaluacion;
+import pe.edu.upc.educacionparatodos.exceptions.BusinessRuleException;
+import pe.edu.upc.educacionparatodos.repositories.IDetalleEvaluacionRepository;
 import pe.edu.upc.educacionparatodos.repositories.IEvaluacionRepository;
 import pe.edu.upc.educacionparatodos.servicesinterfaces.IEvaluacionService;
 
@@ -12,9 +14,12 @@ import java.util.Optional;
 public class EvaluacionServiceImplement implements IEvaluacionService {
 
     private final IEvaluacionRepository evaluacionRepository;
+    private final IDetalleEvaluacionRepository detalleRepository;
 
-    public EvaluacionServiceImplement(IEvaluacionRepository evaluacionRepository) {
+    public EvaluacionServiceImplement(IEvaluacionRepository evaluacionRepository,
+                                      IDetalleEvaluacionRepository detalleRepository) {
         this.evaluacionRepository = evaluacionRepository;
+        this.detalleRepository = detalleRepository;
     }
 
     @Override
@@ -39,6 +44,12 @@ public class EvaluacionServiceImplement implements IEvaluacionService {
 
     @Override
     public void delete(Long id) {
+        // Las respuestas son el historial academico del estudiante: no se borran en cascada
+        if (detalleRepository.existsByEvaluacionId(id)) {
+            throw new BusinessRuleException(
+                    "No se puede eliminar la evaluación porque ya tiene respuestas registradas"
+            );
+        }
         evaluacionRepository.deleteById(id);
     }
 

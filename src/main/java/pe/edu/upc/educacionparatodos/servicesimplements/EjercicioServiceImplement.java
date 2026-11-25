@@ -3,7 +3,9 @@ package pe.edu.upc.educacionparatodos.servicesimplements;
 import org.springframework.stereotype.Service;
 import pe.edu.upc.educacionparatodos.entities.Ejercicio;
 import pe.edu.upc.educacionparatodos.entities.Tema;
+import pe.edu.upc.educacionparatodos.exceptions.BusinessRuleException;
 import pe.edu.upc.educacionparatodos.exceptions.ResourceNotFoundException;
+import pe.edu.upc.educacionparatodos.repositories.IDetalleEvaluacionRepository;
 import pe.edu.upc.educacionparatodos.repositories.IEjercicioRepository;
 import pe.edu.upc.educacionparatodos.repositories.ITemaRepository;
 import pe.edu.upc.educacionparatodos.servicesinterfaces.IEjercicioService;
@@ -15,8 +17,11 @@ public class EjercicioServiceImplement implements IEjercicioService {
 
     private final IEjercicioRepository ejercicioRepository;
     private final ITemaRepository temaRepository;
+    private final IDetalleEvaluacionRepository detalleRepository;
 
-    public EjercicioServiceImplement(IEjercicioRepository ejercicioRepository, ITemaRepository temaRepository) {
+    public EjercicioServiceImplement(IEjercicioRepository ejercicioRepository, ITemaRepository temaRepository,
+                                     IDetalleEvaluacionRepository detalleRepository) {
+        this.detalleRepository = detalleRepository;
         this.ejercicioRepository = ejercicioRepository;
         this.temaRepository = temaRepository;
     }
@@ -58,6 +63,11 @@ public class EjercicioServiceImplement implements IEjercicioService {
     @Override
     public void delete(Long id) {
         Ejercicio ejercicio = findById(id);
+        if (detalleRepository.existsByEjercicioId(ejercicio.getId())) {
+            throw new BusinessRuleException(
+                    "No se puede eliminar el ejercicio porque ya tiene respuestas de estudiantes"
+            );
+        }
         ejercicioRepository.deleteById(ejercicio.getId());
     }
 

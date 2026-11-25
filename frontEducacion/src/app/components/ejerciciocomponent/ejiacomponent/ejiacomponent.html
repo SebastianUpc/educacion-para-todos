@@ -1,0 +1,154 @@
+<div class="container">
+  <h2>Ejercicios personalizados con IA</h2>
+  <p class="subtitulo">
+    Elija al estudiante y el tema. La IA tendrá en cuenta su progreso y sus errores recientes.
+  </p>
+
+  <form [formGroup]="formIa" (ngSubmit)="generar()" class="formulario">
+    <mat-form-field appearance="outline">
+      <mat-label>Estudiante</mat-label>
+      <mat-select formControlName="idEstudiante">
+        @for (op of listaEstudiantes; track op.id) {
+          <mat-option [value]="op.id">
+            {{ op.nombreCompleto }}@if (op.aula) { &middot; {{ op.aula }} }
+          </mat-option>
+        }
+      </mat-select>
+      <mat-error>El estudiante es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tema</mat-label>
+      <mat-select formControlName="idTema">
+        @for (op of listaTema; track op.id) {
+          <mat-option [value]="op.id">{{ op.materia }} - {{ op.nombre }}</mat-option>
+        }
+      </mat-select>
+      <mat-error>El tema es obligatorio</mat-error>
+    </mat-form-field>
+
+    <div class="fila">
+      <mat-form-field appearance="outline">
+        <mat-label>Cantidad</mat-label>
+        <mat-select formControlName="cantidad">
+          @for (n of cantidades; track n) {
+            <mat-option [value]="n">{{ n }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Dificultad</mat-label>
+        <mat-select formControlName="nivelDificultad">
+          <mat-option [value]="null">Automática (según su progreso)</mat-option>
+          @for (n of niveles; track n) {
+            <mat-option [value]="n">Nivel {{ n }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Necesidades de aprendizaje (opcional)</mat-label>
+      <textarea
+        matInput
+        rows="2"
+        formControlName="necesidades"
+        placeholder="Ej.: confunde numerador y denominador; prefiere ejemplos de la vida diaria"></textarea>
+      <mat-hint align="end">{{ formIa.value.necesidades?.length || 0 }} / 500</mat-hint>
+      <mat-error>Máximo 500 caracteres</mat-error>
+    </mat-form-field>
+
+    <button mat-flat-button type="submit" [disabled]="generando || guardando">
+      @if (generando) {
+        <span class="contenido-boton"><mat-spinner diameter="20"></mat-spinner> Generando...</span>
+      } @else {
+        <span class="contenido-boton"><mat-icon>auto_awesome</mat-icon> Generar ejercicios</span>
+      }
+    </button>
+  </form>
+
+  @if (error) {
+    <div class="alerta error" role="alert">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ error }}</span>
+    </div>
+  }
+
+  @if (exito) {
+    <div class="alerta exito" role="status">
+      <mat-icon>check_circle</mat-icon>
+      <span>{{ exito }}</span>
+      <a mat-button routerLink="/ejercicio/listar">Ver ejercicios</a>
+    </div>
+  }
+
+  @if (resultado) {
+    <section class="resultado">
+      <div class="contexto">
+        <h3>
+          Para {{ resultado.nombreEstudiante }} &middot; {{ resultado.nombreTema }} &middot;
+          nivel {{ resultado.nivelAplicado }}
+        </h3>
+        <p class="etiqueta">Información considerada por la IA</p>
+        <ul>
+          @for (linea of resultado.contextoUsado; track $index) {
+            <li>{{ linea }}</li>
+          }
+        </ul>
+      </div>
+
+      <p class="etiqueta">Revise los ejercicios y desmarque los que no quiera guardar</p>
+
+      @for (p of propuestas; track $index) {
+        <article class="propuesta" [class.descartada]="!p.aprobado">
+          <header>
+            <mat-checkbox [(ngModel)]="p.aprobado" [ngModelOptions]="{ standalone: true }">
+              Ejercicio {{ $index + 1 }}
+            </mat-checkbox>
+            <span class="nivel">Nivel {{ p.dto.nivelDificultad }}</span>
+          </header>
+
+          <p class="enunciado">{{ p.dto.enunciado }}</p>
+
+          @if (p.alternativas.length > 0) {
+            <ol type="a" class="alternativas">
+              @for (alt of p.alternativas; track $index) {
+                <li [class.correcta]="alt === p.dto.respuestaCorrecta">
+                  {{ alt }}
+                  @if (alt === p.dto.respuestaCorrecta) {
+                    <mat-icon class="check" aria-label="Respuesta correcta">check</mat-icon>
+                  }
+                </li>
+              }
+            </ol>
+          } @else {
+            <p class="respuesta">Respuesta: <strong>{{ p.dto.respuestaCorrecta }}</strong></p>
+          }
+
+          @if (p.explicacion) {
+            <p class="explicacion">{{ p.explicacion }}</p>
+          }
+        </article>
+      }
+
+      <div class="acciones">
+        <button mat-stroked-button type="button" (click)="descartar()" [disabled]="guardando">
+          Descartar todo
+        </button>
+        <button
+          mat-flat-button
+          type="button"
+          class="guardar"
+          (click)="guardar()"
+          [disabled]="guardando || cantidadAprobados === 0">
+          @if (guardando) {
+            <span class="contenido-boton"><mat-spinner diameter="20"></mat-spinner> Guardando...</span>
+          } @else {
+            Guardar {{ cantidadAprobados }} ejercicio(s)
+          }
+        </button>
+      </div>
+    </section>
+  }
+</div>

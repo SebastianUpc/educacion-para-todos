@@ -35,7 +35,7 @@ public class ColegioController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','APODERADO')")
     public ResponseEntity<List<ColegioDTO>> listar() {
         List<ColegioDTO> lista = cS.list()
                 .stream()
@@ -45,7 +45,7 @@ public class ColegioController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','APODERADO')")
     public ResponseEntity<ColegioDTO> buscarId(@PathVariable Long id) {
         Colegio colegio = cS.listId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No existe un colegio con el id: " + id));
@@ -90,7 +90,7 @@ public class ColegioController {
     }
 
     @GetMapping("/cantidades")
-    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<ColegiosPorDistritoDTO>> contarPorDistrito() {
         List<ColegiosPorDistritoDTO> lista = cS.contarColegiosPorDistrito()
                 .stream()

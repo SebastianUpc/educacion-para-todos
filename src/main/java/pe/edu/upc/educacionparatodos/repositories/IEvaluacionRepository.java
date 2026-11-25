@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pe.edu.upc.educacionparatodos.entities.Evaluacion;
 
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -14,6 +15,11 @@ public interface IEvaluacionRepository extends JpaRepository<Evaluacion, Long> {
 
     // Query simple: lista las evaluaciones filtradas por su estado (EN_CURSO / FINALIZADA)
     List<Evaluacion> findByEstado(String estado);
+
+    // Dashboard: evaluaciones de un grupo de estudiantes (todas y por estado)
+    long countByEstudianteIdIn(Collection<Long> ids);
+
+    long countByEstudianteIdInAndEstado(Collection<Long> ids, String estado);
 
     // Query con JOIN: cuenta cuantas evaluaciones tiene rendidas cada estudiante.
     // Se agrupa por u.id y no por el nombre: el nombre no es unico, asi que agrupar

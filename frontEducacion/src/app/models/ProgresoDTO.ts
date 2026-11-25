@@ -5,4 +5,6 @@ export class ProgresoDTO {
   nivelActual: number = 0
   porcentajeAvance: number = 0
   diagnosticoIa: string = ''
+  nombreEstudiante?: string
+  nombreTema?: string
 }

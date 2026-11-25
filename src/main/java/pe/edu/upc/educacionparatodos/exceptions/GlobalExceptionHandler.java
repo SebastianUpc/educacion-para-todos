@@ -3,6 +3,7 @@ package pe.edu.upc.educacionparatodos.exceptions;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -42,6 +43,41 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
+                .body(error);
+    }
+
+    // 403 con cuerpo: cubre @PreAuthorize y el alcance por aula del docente,
+    // para que el frontend pueda mostrar el motivo en vez de un error vacio.
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleAccessDenied(
+            AccessDeniedException ex,
+            HttpServletRequest request) {
+
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.FORBIDDEN.value(),
+                ex.getMessage() != null ? ex.getMessage() : "Acceso denegado",
+                request.getRequestURI()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(error);
+    }
+
+    // HU-105 CA08: el docente recibe un mensaje claro si la IA no responde
+    @ExceptionHandler(IaServiceException.class)
+    public ResponseEntity<ErrorResponse> handleIaService(
+            IaServiceException ex,
+            HttpServletRequest request) {
+
+        ErrorResponse error = new ErrorResponse(
+                ex.getStatus().value(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity
+                .status(ex.getStatus())
                 .body(error);
     }
 

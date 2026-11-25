@@ -1,0 +1,197 @@
+<app-menucomponent></app-menucomponent>
+
+<div class="dashboard">
+  <header class="encabezado">
+    <div>
+      <h2>Seguimiento académico</h2>
+      @if (dashboard) {
+        <span class="alcance"><mat-icon>groups</mat-icon> {{ dashboard.alcance }}</span>
+      }
+    </div>
+    <button mat-stroked-button (click)="cargar()" [disabled]="cargando">
+      <mat-icon>refresh</mat-icon> Actualizar
+    </button>
+  </header>
+
+  @if (error) {
+    <div class="alerta error" role="alert">
+      <mat-icon>error_outline</mat-icon>
+      <span>{{ error }}</span>
+      <button mat-button (click)="cargar()">Reintentar</button>
+    </div>
+  }
+
+  @if (cargando && !dashboard) {
+    <div class="cargando"><mat-spinner diameter="42"></mat-spinner></div>
+  }
+
+  @if (dashboard) {
+    <section class="tarjetas">
+      <mat-card class="tarjeta">
+        <mat-icon class="icono">school</mat-icon>
+        <span class="valor">{{ dashboard.totalEstudiantes }}</span>
+        <span class="titulo">Estudiantes</span>
+      </mat-card>
+
+      <mat-card class="tarjeta">
+        <mat-icon class="icono">assignment</mat-icon>
+        <span class="valor">{{ dashboard.totalEvaluaciones }}</span>
+        <span class="titulo">Evaluaciones realizadas</span>
+        <span class="detalle">
+          {{ dashboard.evaluacionesFinalizadas }} finalizadas · {{ dashboard.evaluacionesEnCurso }} en curso
+        </span>
+      </mat-card>
+
+      <mat-card class="tarjeta">
+        <mat-icon class="icono">grade</mat-icon>
+        @if (dashboard.promedioAcademico !== null) {
+          <span class="valor">
+            {{ dashboard.promedioAcademico | number: '1.1-1' }}<small> / 20</small>
+          </span>
+          <span class="titulo">Promedio académico</span>
+          <span class="estado" [class.malo]="!promedioAprobado">
+            <mat-icon>{{ promedioAprobado ? 'check_circle' : 'warning' }}</mat-icon>
+            {{ promedioAprobado ? 'Aprobatorio' : 'Desaprobatorio' }}
+            · {{ dashboard.porcentajeAciertos }}% de aciertos
+          </span>
+        } @else {
+          <span class="valor vacio">—</span>
+          <span class="titulo">Promedio académico</span>
+          <span class="detalle">Sin respuestas evaluadas</span>
+        }
+      </mat-card>
+
+      <mat-card class="tarjeta">
+        <mat-icon class="icono">trending_up</mat-icon>
+        @if (dashboard.progresoPromedio !== null) {
+          <span class="valor">{{ dashboard.progresoPromedio | number: '1.0-1' }}<small>%</small></span>
+        } @else {
+          <span class="valor vacio">—</span>
+        }
+        <span class="titulo">Progreso promedio</span>
+        <span class="detalle">Avance registrado por tema</span>
+      </mat-card>
+    </section>
+
+    @if (!dashboard.hayDatos) {
+      <div class="alerta info" role="status">
+        <mat-icon>info</mat-icon>
+        <span>
+          @if (dashboard.totalEstudiantes === 0) {
+            No hay estudiantes asignados a {{ dashboard.alcance === 'Sin aula asignada' ? 'su cuenta' : 'esta vista' }}.
+            Pida al administrador que le asigne un aula con estudiantes.
+          } @else {
+            Aún no hay datos académicos: los indicadores aparecerán cuando los estudiantes
+            rindan evaluaciones o se registre su progreso.
+          }
+        </span>
+      </div>
+    } @else {
+      <section class="paneles">
+        <mat-card class="panel">
+          <h3>Rendimiento por tema</h3>
+          @if (temasGrafico.length > 0) {
+            <div class="grafico">
+              <canvas baseChart type="bar" [data]="chartData" [options]="chartOptions"></canvas>
+            </div>
+            <table class="tabla-temas" aria-label="Rendimiento por tema">
+              <thead>
+                <tr><th>Tema</th><th>Respuestas</th><th>Aciertos</th><th>Promedio</th></tr>
+              </thead>
+              <tbody>
+                @for (t of temasGrafico; track t.idTema) {
+                  <tr>
+                    <td class="izq">{{ t.tema }}</td>
+                    <td>{{ t.totalRespuestas }}</td>
+                    <td>{{ t.porcentajeAciertos }}%</td>
+                    <td>
+                      <span class="nota" [class.malo]="!aprobado(t.promedio)">
+                        <mat-icon>{{ aprobado(t.promedio) ? 'check_circle' : 'warning' }}</mat-icon>
+                        {{ t.promedio | number: '1.1-1' }}
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          } @else {
+            <p class="vacio-panel">Todavía no hay respuestas evaluadas para graficar.</p>
+          }
+        </mat-card>
+
+        <mat-card class="panel">
+          <h3>Estudiantes que necesitan refuerzo</h3>
+          <p class="criterio">
+            Promedio menor a {{ dashboard.notaMinimaAprobatoria }} o avance menor al 50%.
+          </p>
+
+          @if (estudiantes.data.length > 0) {
+            <table mat-table [dataSource]="estudiantes">
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef>Estudiante</th>
+                <td mat-cell *matCellDef="let e" class="izq">{{ e.nombreCompleto }}</td>
+              </ng-container>
+              <ng-container matColumnDef="aula">
+                <th mat-header-cell *matHeaderCellDef>Aula</th>
+                <td mat-cell *matCellDef="let e">{{ e.aula || '—' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="promedio">
+                <th mat-header-cell *matHeaderCellDef>Promedio</th>
+                <td mat-cell *matCellDef="let e">
+                  @if (e.promedio !== null) {
+                    <span class="nota" [class.malo]="!aprobado(e.promedio)">{{ e.promedio | number: '1.1-1' }}</span>
+                  } @else { — }
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="aciertos">
+                <th mat-header-cell *matHeaderCellDef>Aciertos</th>
+                <td mat-cell *matCellDef="let e">
+                  {{ e.porcentajeAciertos !== null ? e.porcentajeAciertos + '%' : '—' }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="progreso">
+                <th mat-header-cell *matHeaderCellDef>Avance</th>
+                <td mat-cell *matCellDef="let e">
+                  {{ e.progresoPromedio !== null ? e.progresoPromedio + '%' : '—' }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="tema">
+                <th mat-header-cell *matHeaderCellDef>Tema más débil</th>
+                <td mat-cell *matCellDef="let e">{{ e.temaMasDebil || '—' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="motivos">
+                <th mat-header-cell *matHeaderCellDef>Motivo</th>
+                <td mat-cell *matCellDef="let e" class="izq">
+                  @for (m of e.motivos; track m) {
+                    <span class="motivo"><mat-icon>warning</mat-icon>{{ m }}</span>
+                  }
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="accion">
+                <th mat-header-cell *matHeaderCellDef>Refuerzo</th>
+                <td mat-cell *matCellDef="let e">
+                  <a
+                    mat-icon-button
+                    routerLink="/ejercicio/ia"
+                    [queryParams]="{ estudiante: e.idEstudiante }"
+                    matTooltip="Generar ejercicios de refuerzo con IA"
+                    aria-label="Generar ejercicios de refuerzo con IA">
+                    <mat-icon>auto_awesome</mat-icon>
+                  </a>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="columnas"></tr>
+              <tr mat-row *matRowDef="let row; columns: columnas"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+          } @else {
+            <p class="vacio-panel ok">
+              <mat-icon>check_circle</mat-icon> Ningún estudiante presenta dificultades por ahora.
+            </p>
+          }
+        </mat-card>
+      </section>
+    }
+  }
+</div>

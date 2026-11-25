@@ -39,7 +39,7 @@ public class AulaController {
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','APODERADO')")
     public ResponseEntity<List<AulaDTO>> listar() {
         List<AulaDTO> lista = aS.list()
                 .stream()
@@ -49,7 +49,7 @@ public class AulaController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','ESTUDIANTE','APODERADO')")
+    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE','APODERADO')")
     public ResponseEntity<AulaDTO> buscarId(@PathVariable Long id) {
         Aula aula = aS.listId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No existe un aula con el id: " + id));
@@ -103,7 +103,7 @@ public class AulaController {
     }
 
     @GetMapping("/cantidades")
-    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<AulasPorColegioDTO>> contarPorColegio() {
         List<AulasPorColegioDTO> lista = aS.contarAulasPorColegio()
                 .stream()

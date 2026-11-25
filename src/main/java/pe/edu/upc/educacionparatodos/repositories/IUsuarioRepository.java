@@ -24,6 +24,12 @@ public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
     // Query simple: lista los usuarios filtrados por su estado (ACTIVO / INACTIVO)
     List<Usuario> findByEstado(String estado);
 
+    // Dashboard (ADMIN): todos los estudiantes activos
+    List<Usuario> findByRolNombreIgnoreCaseAndEstado(String nombreRol, String estado);
+
+    // Dashboard (DOCENTE): solo los estudiantes activos del aula del docente
+    List<Usuario> findByAulaIdAndRolNombreIgnoreCaseAndEstado(Long aulaId, String nombreRol, String estado);
+
     // Query con JOIN: cuenta cuantos usuarios hay registrados en cada rol.
     // Se usa left join desde roles para que los roles sin usuarios tambien salgan, con cantidad 0.
     @Query(value = "select r.nombre_rol, count(u.id)\n" +
