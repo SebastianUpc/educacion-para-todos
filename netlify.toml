@@ -1,0 +1,15 @@
+# Despliegue del frontend Angular en Netlify.
+# El repositorio contiene el Web Service (Java) y la aplicacion web (Angular);
+# "base" indica que solo se compila la carpeta del frontend.
+
+[build]
+  base = "frontEducacion"
+  command = "npm run build"
+  publish = "dist/frontEducacion/browser"
+
+# El enrutador de Angular resuelve las rutas en el navegador, de modo que todas
+# las peticiones deben devolver index.html en lugar de un error 404.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
