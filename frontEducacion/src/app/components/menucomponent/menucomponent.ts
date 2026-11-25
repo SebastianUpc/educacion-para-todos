@@ -38,6 +38,11 @@ export class Menucomponent {
     return this.lS.hasAnyRole(['ADMIN', 'DOCENTE']);
   }
 
+  // ESTUDIANTE no ve Colegios ni Aulas
+  get esEstudiante(): boolean {
+    return this.lS.hasAnyRole(['ESTUDIANTE']);
+  }
+
   // Marca el boton de la seccion en la que esta el usuario. Se compara contra
   // router.url y no con routerLinkActive porque los botones de la barra abren un
   // menu desplegable: no tienen routerLink propio al que engancharse.

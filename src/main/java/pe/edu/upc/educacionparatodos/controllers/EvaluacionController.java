@@ -159,7 +159,7 @@ public class EvaluacionController {
 
     // Query con JOIN: cuantas evaluaciones tiene rendidas cada estudiante
     @GetMapping("/cantidades")
-    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<EvaluacionesPorEstudianteDTO>> contarPorEstudiante() {
         List<EvaluacionesPorEstudianteDTO> lista = eS.contarEvaluacionesPorEstudiante()
                 .stream()

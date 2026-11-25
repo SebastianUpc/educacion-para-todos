@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MatTableModule } from '@angular/material/table';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
@@ -9,13 +10,21 @@ import { Loginservice } from '../../../services/loginservice';
 
 @Component({
   selector: 'app-aulistcomponent',
-  imports: [MatTableModule, MatIconModule, MatButtonModule, RouterLink],
+  imports: [MatTableModule, MatPaginatorModule, MatIconModule, MatButtonModule, RouterLink],
   templateUrl: './aulistcomponent.html',
   styleUrl: './aulistcomponent.css',
 })
 export class Aulistcomponent implements OnInit {
   displayedColumns: string[] = ['c1', 'c2', 'c3', 'c4', 'c5'];
-  dataSource: AulaDTO[] = [];
+  dataSource = new MatTableDataSource<AulaDTO>();
+
+  // La tabla esta dentro de un @if, asi que el paginador aparece recien cuando
+  // llegan datos: el setter lo engancha en ese momento y no en ngAfterViewInit.
+  @ViewChild(MatPaginator) set paginator(paginator: MatPaginator) {
+    if (paginator) {
+      this.dataSource.paginator = paginator;
+    }
+  }
   mensaje: string = '';
 
   constructor(
@@ -53,7 +62,7 @@ export class Aulistcomponent implements OnInit {
   obtenerAulas(): void {
     this.aS.getAula().subscribe({
       next: (data) => {
-        this.dataSource = data;
+        this.dataSource.data = data;
         this.mensaje = '';
         this.cdr.detectChanges();
       },
