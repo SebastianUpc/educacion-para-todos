@@ -55,8 +55,12 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Origen permitido: la aplicacion Angular en desarrollo
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        // Origenes permitidos: la aplicacion Angular en desarrollo y la desplegada.
+        // Se enumeran de forma explicita en lugar de abrir el API a cualquier
+        // origen, de modo que solo el frontend del proyecto puede consumirla.
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:4200",
+                "https://educacion-para-todos.netlify.app"));
 
         // Metodos HTTP permitidos
         configuration.setAllowedMethods(
