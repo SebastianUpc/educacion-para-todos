@@ -197,6 +197,46 @@ sustentar.
 
 ---
 
+## 6.1. Sprint 4: IA, dashboard, paginador y permisos
+
+**HU-105, ejercicios con IA** (`/ejercicio/ia`, ADMIN y DOCENTE). El backend llama
+a Gemini desde `GeminiClient`; el frontend nunca ve la API key. Antes de levantar
+el backend define la variable de entorno (en IntelliJ: *Run > Edit Configurations
+> Environment variables*):
+
+```
+GEMINI_API_KEY=tu_key_de_Google_AI_Studio
+GEMINI_MODEL=gemini-3.6-flash   (opcional, es el valor por defecto)
+```
+
+La key gratuita se crea en https://aistudio.google.com/apikey. En Azure va en
+*App Service > Configuración > Variables de entorno*. Nunca se sube al repositorio.
+
+Flujo: el docente elige estudiante y tema, `POST /api/ejercicios-ia/generar`
+devuelve propuestas **sin guardarlas**, el docente desmarca las que no sirven y
+`POST /api/ejercicios-ia/guardar` las inserta con `generadoPorIa = true`.
+
+**HU-106, dashboard** (`/dashboard`, ADMIN y DOCENTE). `GET /api/dashboard`
+calcula todo en el backend. El docente solo ve a los estudiantes de **su aula**
+(el `aula` de su usuario); si no tiene aula, el dashboard sale vacío con aviso.
+Promedio = % de respuestas correctas en escala vigesimal; necesita refuerzo
+quien tiene promedio < 11 o avance < 50%.
+
+Para que haya datos, `Progreso` y `DetalleEvaluacion` dejaron de ser listas fijas
+en memoria: ahora son las tablas `progresos` y `detalles_evaluacion`, con
+`POST` en `/api/progresos` y `/api/detalles-evaluacion`. En el detalle,
+`esCorrecta` lo calcula el backend comparando con la respuesta del ejercicio.
+
+**Permisos por rol.** DOCENTE ya no ve Usuarios ni Reportes, y ESTUDIANTE ya no
+ve Colegios ni Aulas. Se cambió en el menú, en las rutas (`roleGuard`) y en los
+`@PreAuthorize` del backend. DOCENTE conserva `GET /api/usuarios` porque llena
+los desplegables de estudiante.
+
+**Paginador.** Todas las tablas usan `MatTableDataSource` + `mat-paginator`
+(5, 10 o 20 filas) con textos en español (`core/paginador-es.ts`).
+
+---
+
 ## 7. Si algo falla
 
 | Síntoma | Causa |
@@ -207,6 +247,8 @@ sustentar.
 | 400 al registrar | Falta un campo obligatorio; el mensaje del backend dice cuál |
 | 409 al registrar un usuario | El correo ya existe |
 | La tabla sale vacía sin error | La lista está vacía de verdad, o el filtro no coincide |
+| 503 en "Generar con IA" | Falta la variable de entorno `GEMINI_API_KEY` en el backend |
+| 502 en "Generar con IA" | La API key o el modelo (`GEMINI_MODEL`) no son válidos, o se agotó la cuota |
 | `ng serve` no reconoce el comando | Usa `npx ng serve` o instala el CLI con `npm i -g @angular/cli` |
 
 ---
@@ -217,4 +259,4 @@ sustentar.
   (requiere un endpoint que los devuelva, o resolverlo en el frontend).
 - Ocultar los botones de insertar, editar y eliminar según el rol, usando
   `loginservice.tieneRol()`.
-- Paginación con `MatPaginator` cuando las tablas crezcan.
+- ~~Paginación con `MatPaginator` cuando las tablas crezcan.~~ Hecho en el Sprint 4.

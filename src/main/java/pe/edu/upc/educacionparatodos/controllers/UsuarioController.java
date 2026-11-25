@@ -45,8 +45,9 @@ public class UsuarioController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // DOCENTE tambien necesita el listado: alimenta los desplegables de estudiante
-    // en Evaluaciones y el de apoderado en Usuarios. Sin esto esas pantallas dan 403.
+    // DOCENTE ya no gestiona usuarios (registrar, editar, buscar y reportes son
+    // solo de ADMIN), pero sigue necesitando el listado: alimenta el desplegable de
+    // estudiante en Evaluaciones y en Ejercicios con IA. Sin esto esas pantallas dan 403.
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
     public ResponseEntity<List<UsuarioDTO>> listar() {
@@ -71,7 +72,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UsuarioDTO> registrar(@Valid @RequestBody UsuarioDTO dto) {
         if (dto.getPassword() == null || dto.getPassword().isBlank()) {
             throw new BusinessRuleException("La contraseña es obligatoria");
@@ -103,7 +104,7 @@ public class UsuarioController {
     }
 
     @PutMapping
-    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UsuarioDTO> actualizar(@Valid @RequestBody UsuarioDTO dto) {
         Usuario usuario = uS.listId(dto.getId())
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -173,7 +174,7 @@ public class UsuarioController {
 
     // Query simple: lista los usuarios filtrados por su estado
     @GetMapping("/estados")
-    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UsuarioDTO>> buscarPorEstado(@RequestParam String estado) {
         List<UsuarioDTO> lista = uS.listarPorEstado(estado)
                 .stream()
@@ -185,7 +186,7 @@ public class UsuarioController {
 
     // Query con JOIN: cuantos usuarios hay registrados en cada rol
     @GetMapping("/cantidades")
-    @PreAuthorize("hasAnyRole('ADMIN','DOCENTE')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UsuariosPorRolDTO>> contarPorRol() {
         List<UsuariosPorRolDTO> lista = uS.contarUsuariosPorRol()
                 .stream()

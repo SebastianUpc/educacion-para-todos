@@ -5,6 +5,7 @@ import pe.edu.upc.educacionparatodos.entities.Tema;
 import pe.edu.upc.educacionparatodos.exceptions.BusinessRuleException;
 import pe.edu.upc.educacionparatodos.exceptions.ResourceNotFoundException;
 import pe.edu.upc.educacionparatodos.repositories.IEjercicioRepository;
+import pe.edu.upc.educacionparatodos.repositories.IProgresoRepository;
 import pe.edu.upc.educacionparatodos.repositories.ITemaRepository;
 import pe.edu.upc.educacionparatodos.servicesinterfaces.ITemaService;
 
@@ -15,8 +16,11 @@ public class TemaServiceImplement implements ITemaService {
 
     private final ITemaRepository temaRepository;
     private final IEjercicioRepository ejercicioRepository;
+    private final IProgresoRepository progresoRepository;
 
-    public TemaServiceImplement(ITemaRepository temaRepository, IEjercicioRepository ejercicioRepository) {
+    public TemaServiceImplement(ITemaRepository temaRepository, IEjercicioRepository ejercicioRepository,
+                                IProgresoRepository progresoRepository) {
+        this.progresoRepository = progresoRepository;
         this.temaRepository = temaRepository;
         this.ejercicioRepository = ejercicioRepository;
     }
@@ -54,6 +58,12 @@ public class TemaServiceImplement implements ITemaService {
         if (ejercicioRepository.existsByTemaId(tema.getId())) {
             throw new BusinessRuleException(
                     "No se puede eliminar el tema porque tiene ejercicios asociados"
+            );
+        }
+
+        if (progresoRepository.existsByTemaId(tema.getId())) {
+            throw new BusinessRuleException(
+                    "No se puede eliminar el tema porque tiene progresos de estudiantes asociados"
             );
         }
 

@@ -37,13 +37,14 @@ class AutorizacionEndpointsTest {
 
     static Stream<Arguments> matrizDeAutorizacion() {
         return Stream.of(
-                // --- Usuarios: DOCENTE necesita listar para alimentar los desplegables
+                // --- Usuarios: la gestion es solo de ADMIN. DOCENTE conserva el listado
+                // porque alimenta los desplegables de estudiante, pero no gestiona usuarios.
                 caso(UsuarioController.class, "listar", "ADMIN", "DOCENTE"),
-                caso(UsuarioController.class, "registrar", "ADMIN", "DOCENTE"),
-                caso(UsuarioController.class, "actualizar", "ADMIN", "DOCENTE"),
+                caso(UsuarioController.class, "registrar", "ADMIN"),
+                caso(UsuarioController.class, "actualizar", "ADMIN"),
                 caso(UsuarioController.class, "eliminar", "ADMIN"),
-                caso(UsuarioController.class, "buscarPorEstado", "ADMIN", "DOCENTE"),
-                caso(UsuarioController.class, "contarPorRol", "ADMIN", "DOCENTE"),
+                caso(UsuarioController.class, "buscarPorEstado", "ADMIN"),
+                caso(UsuarioController.class, "contarPorRol", "ADMIN"),
 
                 // --- Roles: listar lo necesita DOCENTE; el resto es exclusivo de ADMIN
                 caso(RolController.class, "listar", "ADMIN", "DOCENTE"),
@@ -52,19 +53,19 @@ class AutorizacionEndpointsTest {
                 caso(RolController.class, "actualizar", "ADMIN"),
                 caso(RolController.class, "eliminar", "ADMIN"),
 
-                // --- Colegios: la escritura es solo de ADMIN
-                caso(ColegioController.class, "listar", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),
+                // --- Colegios: la escritura es solo de ADMIN; ESTUDIANTE no ve colegios
+                caso(ColegioController.class, "listar", "ADMIN", "DOCENTE", "APODERADO"),
                 caso(ColegioController.class, "registrar", "ADMIN"),
                 caso(ColegioController.class, "actualizar", "ADMIN"),
                 caso(ColegioController.class, "eliminar", "ADMIN"),
-                caso(ColegioController.class, "contarPorDistrito", "ADMIN", "DOCENTE"),
+                caso(ColegioController.class, "contarPorDistrito", "ADMIN"),
 
-                // --- Aulas: DOCENTE puede crear y editar, pero no eliminar
-                caso(AulaController.class, "listar", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),
+                // --- Aulas: DOCENTE puede crear y editar, pero no eliminar; ESTUDIANTE no ve aulas
+                caso(AulaController.class, "listar", "ADMIN", "DOCENTE", "APODERADO"),
                 caso(AulaController.class, "registrar", "ADMIN", "DOCENTE"),
                 caso(AulaController.class, "actualizar", "ADMIN", "DOCENTE"),
                 caso(AulaController.class, "eliminar", "ADMIN"),
-                caso(AulaController.class, "contarPorColegio", "ADMIN", "DOCENTE"),
+                caso(AulaController.class, "contarPorColegio", "ADMIN"),
 
                 // --- Temas y Ejercicios: mismo criterio que Aulas
                 caso(TemaController.class, "listar", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),
@@ -83,15 +84,25 @@ class AutorizacionEndpointsTest {
                 caso(EvaluacionController.class, "eliminar", "ADMIN", "DOCENTE"),
                 caso(EvaluacionController.class, "buscarPorEstado", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),
                 caso(EvaluacionController.class, "listarPorEstudiante", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),
-                caso(EvaluacionController.class, "contarPorEstudiante", "ADMIN", "DOCENTE"),
+                caso(EvaluacionController.class, "contarPorEstudiante", "ADMIN"),
 
-                // --- Recursos de solo lectura
+                // --- Progreso y detalle de evaluacion: ahora se guardan en la base de datos
                 caso(ProgresoController.class, "listar", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),
+                caso(ProgresoController.class, "registrar", "ADMIN", "DOCENTE"),
+                caso(ProgresoController.class, "eliminar", "ADMIN"),
                 caso(DetalleEvaluacionController.class, "listar", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),
+                caso(DetalleEvaluacionController.class, "registrar", "ADMIN", "DOCENTE", "ESTUDIANTE"),
+                caso(DetalleEvaluacionController.class, "eliminar", "ADMIN"),
 
-                // --- Consulta por id: abierta a cualquier perfil autenticado en todos los recursos
-                caso(ColegioController.class, "buscarId", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),
-                caso(AulaController.class, "buscarId", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),
+                // --- HU-105 ejercicios con IA y HU-106 dashboard: solo ADMIN y DOCENTE
+                caso(EjercicioIaController.class, "listarEstudiantes", "ADMIN", "DOCENTE"),
+                caso(EjercicioIaController.class, "generar", "ADMIN", "DOCENTE"),
+                caso(EjercicioIaController.class, "guardar", "ADMIN", "DOCENTE"),
+                caso(DashboardController.class, "obtener", "ADMIN", "DOCENTE"),
+
+                // --- Consulta por id: abierta a cualquier perfil autenticado (salvo colegios y aulas)
+                caso(ColegioController.class, "buscarId", "ADMIN", "DOCENTE", "APODERADO"),
+                caso(AulaController.class, "buscarId", "ADMIN", "DOCENTE", "APODERADO"),
                 caso(TemaController.class, "buscarId", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),
                 caso(EjercicioController.class, "buscarId", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),
                 caso(UsuarioController.class, "buscarId", "ADMIN", "DOCENTE", "ESTUDIANTE", "APODERADO"),

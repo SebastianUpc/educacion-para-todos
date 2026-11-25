@@ -44,6 +44,8 @@ import { Report03component } from './components/reportcomponent/report03componen
 import { Report04component } from './components/reportcomponent/report04component/report04component';
 import { Detalleevaluacioncomponent } from './components/detalleevaluacioncomponent/detalleevaluacioncomponent';
 import { Delistcomponent } from './components/detalleevaluacioncomponent/delistcomponent/delistcomponent';
+import { Ejiacomponent } from './components/ejerciciocomponent/ejiacomponent/ejiacomponent';
+import { Dashboardcomponent } from './components/dashboardcomponent/dashboardcomponent';
 
 export const routes: Routes = [
   { path: '', component: Homecomponent },
@@ -51,7 +53,9 @@ export const routes: Routes = [
   {
     path: 'colegio',
     component: Colegiocomponent,
-    canActivate: [authGuard],
+    // ESTUDIANTE no ve colegios
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMIN', 'DOCENTE', 'APODERADO'] },
     children: [
       { path: '', redirectTo: 'listar', pathMatch: 'full' },
       { path: 'listar', component: Colistcomponent },
@@ -62,7 +66,9 @@ export const routes: Routes = [
   {
     path: 'aula',
     component: Aulacomponent,
-    canActivate: [authGuard],
+    // ESTUDIANTE no ve aulas
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMIN', 'DOCENTE', 'APODERADO'] },
     children: [
       { path: '', redirectTo: 'listar', pathMatch: 'full' },
       { path: 'listar', component: Aulistcomponent },
@@ -102,13 +108,16 @@ export const routes: Routes = [
       { path: 'listar', component: Ejlistcomponent },
       { path: 'insertar', component: Ejinsertcomponent, canActivate: [roleGuard], data: { roles: ['ADMIN', 'DOCENTE'] } },
       { path: 'editar/:id', component: Ejupdatecomponent, canActivate: [roleGuard], data: { roles: ['ADMIN', 'DOCENTE'] } },
+      // HU-105: ejercicios personalizados con IA
+      { path: 'ia', component: Ejiacomponent, canActivate: [roleGuard], data: { roles: ['ADMIN', 'DOCENTE'] } },
     ],
   },
   {
     path: 'usuario',
     component: Usuariocomponent,
+    // DOCENTE ya no gestiona usuarios
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['ADMIN', 'DOCENTE'] },
+    data: { roles: ['ADMIN'] },
     children: [
       { path: '', redirectTo: 'listar', pathMatch: 'full' },
       { path: 'listar', component: Uslistcomponent },
@@ -151,8 +160,9 @@ export const routes: Routes = [
   {
     path: 'reportes',
     component: Reportcomponent,
+    // DOCENTE ya no ve reportes: su vista de seguimiento es el dashboard
     canActivate: [authGuard, roleGuard],
-    data: { roles: ['ADMIN', 'DOCENTE'] },
+    data: { roles: ['ADMIN'] },
     children: [
       { path: '', redirectTo: 'reporte01', pathMatch: 'full' },
       { path: 'reporte01', component: Report01component },
@@ -160,6 +170,13 @@ export const routes: Routes = [
       { path: 'reporte03', component: Report03component },
       { path: 'reporte04', component: Report04component },
     ],
+  },
+  {
+    // HU-106: dashboard de seguimiento academico
+    path: 'dashboard',
+    component: Dashboardcomponent,
+    canActivate: [authGuard, roleGuard],
+    data: { roles: ['ADMIN', 'DOCENTE'] },
   },
   { path: 'acceso-denegado', component: Accesodenegadocomponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '' },

@@ -7,21 +7,29 @@
 
   @if (logueado) {
     <div class="menus">
-        <button mat-button [matMenuTriggerFor]="menuColegio" [class.activo]="seccionActiva('/colegio')">Colegios</button>
-        <mat-menu #menuColegio="matMenu">
-          <button mat-menu-item routerLink="/colegio/listar">Listar</button>
-          @if (esAdmin) {
-            <button mat-menu-item routerLink="/colegio/insertar">Insertar</button>
-          }
-        </mat-menu>
+        @if (gestiona) {
+          <button mat-button routerLink="/dashboard" [class.activo]="seccionActiva('/dashboard')">
+            <mat-icon>insights</mat-icon> Dashboard
+          </button>
+        }
 
-        <button mat-button [matMenuTriggerFor]="menuAula" [class.activo]="seccionActiva('/aula')">Aulas</button>
-        <mat-menu #menuAula="matMenu">
-          <button mat-menu-item routerLink="/aula/listar">Listar</button>
-          @if (gestiona) {
-            <button mat-menu-item routerLink="/aula/insertar">Insertar</button>
-          }
-        </mat-menu>
+        @if (!esEstudiante) {
+          <button mat-button [matMenuTriggerFor]="menuColegio" [class.activo]="seccionActiva('/colegio')">Colegios</button>
+          <mat-menu #menuColegio="matMenu">
+            <button mat-menu-item routerLink="/colegio/listar">Listar</button>
+            @if (esAdmin) {
+              <button mat-menu-item routerLink="/colegio/insertar">Insertar</button>
+            }
+          </mat-menu>
+
+          <button mat-button [matMenuTriggerFor]="menuAula" [class.activo]="seccionActiva('/aula')">Aulas</button>
+          <mat-menu #menuAula="matMenu">
+            <button mat-menu-item routerLink="/aula/listar">Listar</button>
+            @if (gestiona) {
+              <button mat-menu-item routerLink="/aula/insertar">Insertar</button>
+            }
+          </mat-menu>
+        }
 
         @if (esAdmin) {
           <button mat-button [matMenuTriggerFor]="menuRol" [class.activo]="seccionActiva('/rol')">Roles</button>
@@ -44,10 +52,13 @@
           <button mat-menu-item routerLink="/ejercicio/listar">Listar</button>
           @if (gestiona) {
             <button mat-menu-item routerLink="/ejercicio/insertar">Insertar</button>
+            <button mat-menu-item routerLink="/ejercicio/ia">
+              <mat-icon>auto_awesome</mat-icon> Generar con IA
+            </button>
           }
         </mat-menu>
 
-        @if (gestiona) {
+        @if (esAdmin) {
           <button mat-button [matMenuTriggerFor]="menuUsuario" [class.activo]="seccionActiva('/usuario')">Usuarios</button>
           <mat-menu #menuUsuario="matMenu">
             <button mat-menu-item routerLink="/usuario/listar">Listar</button>
@@ -75,7 +86,7 @@
         <mat-menu #menuDetalleevaluacion="matMenu">
           <button mat-menu-item routerLink="/detalle-evaluacion/listar">Listar</button>
         </mat-menu>
-        @if (gestiona) {
+        @if (esAdmin) {
           <button mat-button [matMenuTriggerFor]="menuReporte" [class.activo]="seccionActiva('/reportes')">Reportes</button>
           <mat-menu #menuReporte="matMenu">
             <button mat-menu-item routerLink="/reportes/reporte01">Colegios por distrito</button>

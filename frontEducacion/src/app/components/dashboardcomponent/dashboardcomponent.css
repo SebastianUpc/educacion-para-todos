@@ -1,0 +1,270 @@
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 25px;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: #1a4f8a;
+  font-size: 26px;
+  font-weight: bold;
+  margin: 0 0 6px 0;
+}
+
+.alcance {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #e3f0fb;
+  color: #1a4f8a;
+  border-radius: 14px;
+  padding: 3px 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.alcance mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.cargando {
+  display: flex;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+/* --- Tarjetas de indicadores */
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.tarjeta .icono {
+  color: #1a4f8a;
+  margin-bottom: 8px;
+}
+
+.valor {
+  font-size: 34px;
+  font-weight: 700;
+  color: #1f2320;
+  line-height: 1.1;
+}
+
+.valor small {
+  font-size: 16px;
+  font-weight: 600;
+  color: #5a6b7d;
+}
+
+.valor.vacio {
+  color: #9aa7b4;
+}
+
+.titulo {
+  font-size: 13px;
+  font-weight: 700;
+  color: #3d4a57;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-top: 4px;
+}
+
+.detalle {
+  font-size: 12px;
+  color: #5a6b7d;
+  margin-top: 6px;
+}
+
+.estado,
+.nota,
+.motivo {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+}
+
+.estado {
+  font-size: 12px;
+  margin-top: 6px;
+  color: #1b5e20;
+}
+
+.estado mat-icon,
+.nota mat-icon,
+.motivo mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.estado.malo,
+.nota.malo {
+  color: #b71c1c;
+}
+
+.nota {
+  color: #1b5e20;
+}
+
+.motivo {
+  display: flex;
+  font-size: 12px;
+  font-weight: 600;
+  color: #8a4b00;
+}
+
+.motivo mat-icon {
+  color: #e08a00;
+}
+
+/* --- Paneles */
+.paneles {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.panel {
+  padding: 18px 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow-x: auto;
+}
+
+h3 {
+  margin: 0 0 4px 0;
+  color: #1a4f8a;
+  font-size: 18px;
+}
+
+.criterio {
+  margin: 0 0 12px 0;
+  font-size: 12px;
+  color: #5a6b7d;
+}
+
+.grafico {
+  position: relative;
+  height: 280px;
+  margin: 12px 0 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-temas th,
+th[mat-header-cell] {
+  background-color: #f3f6fa;
+  color: #1f2320;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 10px 8px;
+  text-align: center;
+  text-transform: uppercase;
+  border-bottom: 2px solid #1a4f8a;
+  white-space: nowrap;
+}
+
+.tabla-temas td,
+td[mat-cell] {
+  font-size: 13px;
+  color: #333;
+  padding: 9px 8px;
+  text-align: center;
+  border-bottom: 1px solid #e6ebf1;
+}
+
+td.izq {
+  text-align: left;
+}
+
+.vacio-panel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #5a6b7d;
+  font-size: 14px;
+  margin: 18px 0;
+}
+
+.vacio-panel.ok {
+  color: #1b5e20;
+  font-weight: 600;
+}
+
+/* --- Alertas */
+.alerta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.alerta span {
+  flex: 1;
+}
+
+.error {
+  background-color: #fdecea;
+  border-left: 5px solid #c62828;
+  color: #8e1c1c;
+}
+
+.info {
+  background-color: #e3f0fb;
+  border-left: 5px solid #1a4f8a;
+  color: #123a67;
+}
+
+@media (max-width: 1000px) {
+  .tarjetas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .paneles {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .dashboard {
+    padding: 12px;
+  }
+  .tarjetas {
+    grid-template-columns: 1fr;
+  }
+  .encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
